@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tugas 1 - Analisis Request-Response dan Setup Repository
 
 **Nama Situs yang Dianalisis:** Komdigi (https://www.komdigi.go.id)
@@ -28,3 +29,34 @@ HTTP itu adalah protokol pertukaran pesan atau komunikasi data antara client (se
 Untuk pengelolaan kode, Git menyimpan riwayat perubahan sehingga pekerjaan dapat dilacak, dikembalikan ke versi sebelumnya, dan dikolaborasikan bersama tim. Unit dasar Git adalah commit. Repository remote seperti GitHub/GitLab berfungsi sebagai tempat sinkronisasi dan kolaborasi antar pengembang.
 
 Terkait etika AI, AI boleh aja membantu menjelaskan konsep, mencari alternatif, membuat contoh kecil, atau membantu debugging saat nemu error. Tapi mahasiswa wajib memverifikasi output-nya kembali, benar-benar memahami kode yang dihasilkan, tidak memasukkan data sensitif, serta mencatat penggunaan AI pada AI usage log sebagai bentuk transparansi dan tanggung jawab akademik.
+=======
+# Praktikum 1
+Nama Mahasiswa: Nazwa Salwa Adellia
+NPM : 2440304021
+Lokal : A1
+Angkatan : 2024
+
+# Pemrograman Web - Modul 1
+Praktikum Pemrograman Web (OBE)
+
+## Deskripsi Proyek
+Proyek awal untuk praktikum Pemrograman Web, berisi konfigurasi dasar lingkungan pengembangan lokal dan struktur file HTML sederhana.
+
+## Studi Kasus Proyek
+Sistem Informasi Daftar Kehadiran
+
+## Teknologi yang Digunakan
+- PHP 8.4
+- Apache (via Laragon)
+- HTML5
+- Git & GitHub
+
+## Cara Menjalankan Proyek (Laragon)
+1. Pastikan aplikasi **Laragon** sudah dibuka dan status server aktif (**Start All**).
+2. Letakkan folder proyek ini di dalam direktori `C:\laragon\www\pemweb-obe`.
+3. Buka browser dan akses URL lokal di bawah ini.
+
+## URL Lokal
+http://localhost/pemweb-obe/
+>>>>>>> b99b11275a0d8eb5d873d3d4360c339409727465
+
