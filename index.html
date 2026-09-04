@@ -1,14 +1,129 @@
 <!doctype html>
 <html lang="id">
 <head>
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <title>Praktikum Pemrograman Web</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.">
+  <title>AbsensiQR - Absensi Lebih Mudah Dengan QR Code</title>
 </head>
 <body>
- <h1>Praktikum Pemrograman Web</h1>
- <p>Repository awal OBE.</p>
+
+  <!-- Header & Navigasi Utama -->
+  <header>
+    <a href="#main">Lewati ke konten utama</a>
+    
+    <img src="Ilustrasi_qr_code.jpg" alt="Logo resmi AbsensiQR" width="30">
+    <h1>AbsensiQR</h1>
+
+    <nav aria-label="Navigasi Utama">
+      <a href="#beranda">Beranda</a>
+      <a href="#login">Login</a>
+      <a href="#daftar">Daftar</a>
+    </nav>
+  </header>
+
+  <!-- Konten Utama -->
+  <main id="main">
+
+    <!-- Section 1: Hero Section (Beranda) -->
+    <section id="beranda">
+      <article>
+        <h2>Absensi Lebih Mudah Dengan QR Code</h2>
+        <p>AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.</p>
+        <p>
+          <a href="#login">Login</a>
+          <a href="#daftar">Daftar</a>
+        </p>
+      </article>
+
+      <figure>
+        <img src="Ilustrasi_qr_code.jpg" alt="Ilustrasi pemindaian QR Code di smartphone dengan status Absensi Berhasil">
+      </figure>
+    </section>
+
+    <!-- Section 2: Kenapa Memilih AbsensiQR? (Keunggulan) -->
+    <section id="keunggulan">
+      <h2>Kenapa Memilih AbsensiQR?</h2>
+
+      <article>
+        <h3>Berbasis QR Code</h3>
+        <p>Siswa cukup scan QR untuk melakukan absensi dengan cepat dan mudah.</p>
+      </article>
+
+      <article>
+        <h3>Aman</h3>
+        <p>Data absensi tersimpan dengan aman di database dan hanya bisa diakses oleh pihak terkait.</p>
+      </article>
+
+      <article>
+        <h3>Mudah Digunakan</h3>
+        <p>Interface sederhana dan responsif, dapat digunakan di berbagai perangkat.</p>
+      </article>
+    </section>
+
+    <!-- Section 3: Bagaimana Cara Kerjanya? (Langkah) -->
+    <section id="cara-kerja">
+      <h2>Bagaimana Cara Kerjanya?</h2>
+
+      <article>
+        <h3>1. Daftar / Login</h3>
+        <p>Guru, dosen, siswa, atau mahasiswa membuat akun atau login terlebih dahulu.</p>
+      </article>
+
+      <article>
+        <h3>2. Guru/Dosen Membuat Absensi</h3>
+        <p>Guru atau dosen membuat sesi absensi dan sistem akan menghasilkan QR Code.</p>
+      </article>
+
+      <article>
+        <h3>3. Siswa Scan QR</h3>
+        <p>Siswa atau mahasiswa memindai QR Code menggunakan kamera.</p>
+      </article>
+
+      <article>
+        <h3>4. Absensi Tercatat</h3>
+        <p>Absensi berhasil! Data kehadiran otomatis tersimpan dan dapat dilihat guru/dosen.</p>
+      </article>
+    </section>
+
+    <!-- Section 4: Kirimkan Saran Anda (Form) -->
+    <section id="kontak">
+      <article>
+        <h2>Kirimkan Saran Anda</h2>
+        <p>Bantu kami meningkatkan layanan AbsensiQR dengan memberikan saran atau masukan Anda.</p>
+      </article>
+
+      <form action="#" method="POST">
+        <p>
+          <label for="nama">Nama</label>
+          <input id="nama" name="nama" type="text" placeholder="Masukkan nama Anda" required>
+        </p>
+        <p>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Masukkan email Anda" required>
+        </p>
+        <p>
+          <label for="saran">Saran / Pesan</label>
+          <textarea id="saran" name="saran" rows="3" placeholder="Tulis saran Anda di sini..." required></textarea>
+        </p>
+        <button type="submit">Kirim Saran</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <section>
+      <h2>AbsensiQR</h2>
+      <p>Sistem absensi modern berbasis QR Code untuk memudahkan pencatatan kehadiran.</p>
+    </section>
+
+    <section>
+      <p>Email: <a href="mailto:absensiqr@gmail.com">absensiqr@gmail.com</a></p>
+      <p>&copy; 2026 AbsensiQR. All rights reserved.</p>
+    </section>
+  </footer>
+
 </body>
 </html>
-
