@@ -1,0 +1,9 @@
+MODUL 2
+NAMA : NAZWA SALWA ADELLIA
+NPM : 2440304021
+
+LOCALHOST LATIHAN PRAKTIKUM2
+http://localhost/pemweb-obe/
+
+LOCALHOST TUGAS2 OBE
+http://localhost/pemweb-proyek-semester/

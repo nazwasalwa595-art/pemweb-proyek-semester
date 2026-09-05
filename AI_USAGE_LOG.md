@@ -1,12 +1,11 @@
-# AI Usage Log
+# Log Penggunaan AI (AI Usage Log)
 
-| Tanggal | Tujuan Penggunaan AI | Prompt Ringkas | Hasil | Verifikasi | Keputusan Mahasiswa |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| 2026-08-26 | Membantu untuk mengupdate php dari 7.4 ke 8.4 | "cara update php 7.4 ke 8.4 berserta langkah langkahnya" | Mengirimkan link langsung untuk mendownload php 8.4 | Berhasil di update | Menerapkan langkah langkah dari gemini |
-| 2026-08-26 | Membantu troubleshooting Error httpd.exe - Entry Point Not Found | "bagaimana cara agar tidak eror lagi saat di jalankan laragonnya" | Langkah-Langkah untuk menyelesaikan masalah | laragon berhasil berjalan tanpa error | Menerapkan perintah dan langkah langkah melalui folder |
-| 2026-08-26 | Ada bintik bintik di baris viscode | "bagaimana cara menghilangkan bintik bintik warna warni di viscode" | Perintah untuk disable Cursorless atau menguninstall extention | Berhasil menguninstal dan sudah tidak ada bintik-bintik | Menerapkan perintah di viscode |
-| 2026-08-26 | Membantu troubleshooting karena tidak bisa akses halaman melalui `http://localhost/pemweb-obe/` | "bagaimana cara agar muncul localhost pemweb-obe nya" | Memberikan langkah langkah | tidak berhasil mengikuti langkah langkah yang di berikan Ai | File dari index.html yang di buat mahasiswa belum di save, Setelah di save langsung bisa |
-| 2026-08-26 | Contoh output yang di perlukan bagaimana untuk hasil identifikasi request dokumen | "Menyalin soal nomor 6" | Mmeberikan contoh hasil nya | Mengetahui letak dan hasilnya dimana | Screeanshot hasil yang sesuai dengan yang di laptop |
-| 2026-08-26 | Membantu troubleshooting Git dan setup repo | "bagaimana cara git push ke origin main" | Perintah Git remote add dan push | Berhasil push ke GitHub tanpa error | Menerapkan perintah Git di terminal |
-| 2026-08-26 | Memahami arti tampilan Task Manager | "kalo ini maksdnya apa?" (screenshot Task Manager) | Penjelasan fungsi Startup apps dan Laragon | Mengecek status Laragon di system tray | Menonaktifkan autostart Laragon |
-| 2026-08-26 | Pembuatan dokumen README dan AI Log | "buat README.md dan AI_USAGE_LOG.md" | Format teks Markdown untuk README dan Log | File tampil rapi di VS Code | Menggunakan template dokumen |
+| Tanggal | Alat AI | Prompt / Pertanyaan Utama | Hasil / Keputusan yang Diambil |
+| :--- | :--- | :--- | :--- |
+| 05/09/2026 | Gemini | "AKU MEMILIKI 2 REPOSITORY NAH AKU MAU HUBUNGKAN DENGAN FOLDER YANG ADA DI VISCODE BIAR NYAMBUNG KE REPOSITORY DI GITHUB" | Mendapatkan panduan perintah awal Git (`git init`, `git remote add origin`, `git push`) untuk menghubungkan folder lokal ke repository GitHub. |
+| 05/09/2026 | Gemini | "error: remote origin already exists" | Mengetahui penyebab error remote dan mendapatkan solusi memperbarui URL repository menggunakan perintah `git remote set-url origin`. |
+| 05/09/2026 | Gemini | "jadi aku mau add dulu iniii semua... gitnya langsung add . ? gabisa kah add cuma yang html saja" | Memahami arti status file di VS Code (`U`, `A`, `M`) serta perbedaan antara penggunaan perintah `git add .` dan `git add index.html`. |
+| 05/09/2026 | Gemini | "aku mau buat tampilan depannya dulu untuk yang htmlnya aku sudah punya codenya... aku memakai laragon bukan langsung memakai live server" | Mengetahui alur kerja setelah mengubah kode, dari menyimpan file, melakukan testing via domain lokal Laragon (`.test`), hingga commit dan push. |
+| 05/09/2026 | Gemini | "aku uda coba 1 file yang html tapi malah kesimpan di main" | Mendapatkan instruksi cara memindahkan perubahan file dari branch `main` ke branch `feature/struktur-home` menggunakan `git checkout -b`. |
+| 05/09/2026 | Gemini | "error: failed to push some refs... CONFLICT (add/add): Merge conflict in README.md" | Memahami penyebab penolakan push & konflik file README.md, serta menyelesaikannya dengan langkah `git rebase --abort` lalu `git push --force`. |
+| 05/09/2026 | Gemini | "readme nya belum di buat isi nya bantu buat isinya... sitemap/wireframe ini apanya" | Mendapatkan draf file `README.md` lengkap untuk proyek AbsensiQR serta penjelasan mengenai perbedaan konsep Sitemap dan Wireframe. |
