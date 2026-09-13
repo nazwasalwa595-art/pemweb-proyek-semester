@@ -1,6 +1,378 @@
-body {
-    background-color: #f4f4f4;
-    font-family: sans-serif;
+/* 1. CUSTOM PROPERTIES (:ROOT) & RESET */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-main: #f8fafc;
+  --surface: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border: #cbd5e1;
+  --radius: 12px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--bg-main);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 2. AKSESIBILITAS (SKIP LINK & FOCUS STATE) */
+a[href="#main"] {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--primary);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  z-index: 100;
+  transition: top 0.2s ease;
+}
+
+a[href="#main"]:focus {
+  top: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--text-dark);
+  outline-offset: 3px;
+}
+
+/* 3. HEADER & NAVIGASI */
+header {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Mengunci Gambar Logo dan Tulisan AbsensiQR agar berdampingan rapat di kiri */
+header img {
+  width: 110px;
+  height: auto;
+  margin-right: -0.5rem; /* Menjaga jarak gambar ke teks tetap rapat */
+}
+
+header h1 {
+  font-size: 1.5rem;
+  color: var(--text-dark); /* Ubah ke var(--text-dark) agar warna Absensi jadi hitam */
+  margin-right: auto;
+  padding-left: 0.75rem;
+}
+
+/* Tambahkan ini di bawah header h1 */
+header h1 span {
+  color: var(--primary); /* Memberi warna biru pada tulisan QR */
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s, color 0.2s;
+}
+
+nav a:hover {
+  background-color: #eff6ff;
+  color: var(--primary);
+}
+
+/* 4. KONTEN UTAMA & SECTIONS */
+main {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: var(--space-lg);
+}
+
+section {
+  margin-bottom: var(--space-xl);
+}
+
+/* --- Section 1: Hero Section (#beranda) --- */
+#beranda {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  
+  /* Bikin seluruh section beranda jadi 1 kotak kartu besar */
+  background: var(--surface);          /* Warna latar putih */
+  padding: var(--space-lg);             /* Jarak ruang di dalam kotak */
+  border-radius: var(--radius);         /* Melengkungkan 4 sudut kotaknya */
+  border: 1px solid var(--border);      /* Garis tepi tipis */
+  box-shadow: var(--shadow);            /* Efek bayangan halus */
+}
+
+#beranda article h2 {
+  text-align: left;
+  border-left: 4px solid var(--primary);
+  padding-left: var(--space-sm);
+  color: var(--text-dark); /* UBAH DARI var(--primary) KE var(--text-dark) */
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  margin-bottom: var(--space-md);
+}
+
+#beranda article h2 span {
+  color: var(--primary); /* Memberikan warna biru khusus untuk tulisan dalam span */
+}
+
+#beranda article p {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  margin-bottom: var(--space-md);
+}
+
+/* Tombol CTA Login & Daftar */
+#beranda a[href="#login"],
+#beranda a[href="#daftar"],
+#kontak button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+#beranda a[href="#login"],
+#kontak button {
+  background-color: var(--primary);
+  color: white;
+}
+
+#beranda a[href="#login"]:hover,
+#kontak button:hover {
+  background-color: var(--primary-hover);
+}
+
+#beranda a[href="#daftar"] {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  margin-left: var(--space-sm);
+}
+
+#beranda figure {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* --- Section 2 & 3: Cards Grid (#keunggulan & #cara-kerja) --- */
+#keunggulan, #cara-kerja {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+
+#keunggulan h2, 
+#cara-kerja h2 {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--text-dark);
+  margin-bottom: var(--space-md);
+}
+
+#keunggulan article,
+#cara-kerja article {
+  background: var(--surface);
+  padding: var(--space-lg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+#keunggulan figure,
+#cara-kerja figure {
+  margin-bottom: 0.5rem;
+}
+
+#keunggulan h3,
+#cara-kerja h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+#keunggulan p,
+#cara-kerja p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* --- Section 4: Form Kontak (#kontak) --- */
+#kontak {
+  max-width: 70rem;
+  margin-inline: auto;
+  background: var(--surface);
+  padding: var(--space-lg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+#kontak article {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+#kontak article h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--text-dark);
+  margin-bottom: var(--space-sm);
+}
+
+#kontak article p {
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+#kontak article figure {
+  display: flex;
+  justify-content: center;
+}
+
+#kontak form p {
+  margin-bottom: var(--space-md);
+}
+
+#kontak label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+#kontak input,
+#kontak textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+#kontak button {
+  width: 100%;
+}
+
+/* Bikin layout menyamping (2 kolom) saat dibuka di laptop */
+@media (min-width: 48rem) {
+  #kontak {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Kolom Kiri (Artikel/Gambar) & Kolom Kanan (Form) */
+    gap: var(--space-lg);
+    align-items: center;
+  }
+}
+/* 5. FOOTER */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: var(--space-lg);
+  max-width: 72rem;
+  margin-inline: auto;
+  
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+footer section,
+footer article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+footer h2 {
+  color: var(--text-dark); /* Warna hitam/gelap */
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Mengubah teks QR di dalam span menjadi warna biru */
+footer h2 span {
+  color: var(--primary); /* Warna biru bawaan CSS-mu */
+}
+
+/* 6. MEDIA QUERIES (DESKTOP & TABLET LAYOUT) */
+@media (min-width: 48rem) {
+  /* Hero Section berdampingan */
+  #beranda {
+    flex-direction: row;
+  }
+
+  #beranda article,
+  #beranda figure {
+    flex: 1;
+  }
+
+  /* Section Keunggulan: 3 Kolom Kartu Berjejer Horizontal */
+  #keunggulan {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Section Cara Kerja: 2 Kolom Kartu (Grid 2x2) */
+  #cara-kerja {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Footer berdampingan kiri-kanan */
+  footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
