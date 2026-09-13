@@ -2,10 +2,10 @@
 
 | Tanggal | Alat AI | Prompt / Pertanyaan Utama | Hasil / Keputusan yang Diambil |
 | :--- | :--- | :--- | :--- |
-| 05/09/2026 | Gemini | "AKU MEMILIKI 2 REPOSITORY NAH AKU MAU HUBUNGKAN DENGAN FOLDER YANG ADA DI VISCODE BIAR NYAMBUNG KE REPOSITORY DI GITHUB" | Mendapatkan panduan perintah awal Git (`git init`, `git remote add origin`, `git push`) untuk menghubungkan folder lokal ke repository GitHub. |
-| 05/09/2026 | Gemini | "error: remote origin already exists" | Mengetahui penyebab error remote dan mendapatkan solusi memperbarui URL repository menggunakan perintah `git remote set-url origin`. |
-| 05/09/2026 | Gemini | "jadi aku mau add dulu iniii semua... gitnya langsung add . ? gabisa kah add cuma yang html saja" | Memahami arti status file di VS Code (`U`, `A`, `M`) serta perbedaan antara penggunaan perintah `git add .` dan `git add index.html`. |
-| 05/09/2026 | Gemini | "aku mau buat tampilan depannya dulu untuk yang htmlnya aku sudah punya codenya... aku memakai laragon bukan langsung memakai live server" | Mengetahui alur kerja setelah mengubah kode, dari menyimpan file, melakukan testing via domain lokal Laragon (`.test`), hingga commit dan push. |
-| 05/09/2026 | Gemini | "aku uda coba 1 file yang html tapi malah kesimpan di main" | Mendapatkan instruksi cara memindahkan perubahan file dari branch `main` ke branch `feature/struktur-home` menggunakan `git checkout -b`. |
-| 05/09/2026 | Gemini | "error: failed to push some refs... CONFLICT (add/add): Merge conflict in README.md" | Memahami penyebab penolakan push & konflik file README.md, serta menyelesaikannya dengan langkah `git rebase --abort` lalu `git push --force`. |
-| 05/09/2026 | Gemini | "readme nya belum di buat isi nya bantu buat isinya... sitemap/wireframe ini apanya" | Mendapatkan draf file `README.md` lengkap untuk proyek AbsensiQR serta penjelasan mengenai perbedaan konsep Sitemap dan Wireframe. |
+| 13/09/2026 | Gemini | "aku mau ini lebar ke samping jangan ke bawah" | Mendapatkan solusi layout Flexbox/Grid 2 kolom untuk merender form saran menyamping di layar laptop dan vertikal di mobile. |
+| 13/09/2026 | Gemini | "seusikan sama css ku tadi" | Penyesuaian variabel CSS (`var(--surface)`, `var(--border)`, `var(--radius)`) agar konsisten dengan stylesheet proyek. |
+| 13/09/2026 | Gemini | "aku mau bawahnya jangan terlalu lebar gimana cara ubahnya" | Memperbaiki spasi vertikal dengan mengganti `align-items: center` menjadi `align-items: start` dan menghapus `margin-bottom` ekstra. |
+| 13/09/2026 | Gemini | "bagian footer di bikin lurus ke bawah aja gini kecil" | Mengubah layout footer menjadi vertikal terpusat (`flex-direction: column`, `align-items: center`) dengan ukuran font lebih ringkas. |
+| 13/09/2026 | Gemini | "aku au tulisan ABSENSI itu warna hitam QR nya biru" | Membungkus kata "QR" menggunakan tag `<span>` di HTML dan memberi styling `footer h2 span { color: var(--primary); }`. |
+| 13/09/2026 | Gemini | "• Screenshot/bukti tampilan desktop, tablet, dan mobile. • Accessibility check dasar dan catatan keputusan desain. dimna aku buktikan ini" | Mendapatkan panduan pengambilan screenshot lewat Chrome DevTools, penggunaan Lighthouse Audit, serta draft dokumentasi untuk `README.md`. |
+| 13/09/2026 | Gemini | "dimna lighthouse" | Mengetahui lokasi tab Lighthouse di Developer Tools (`F12`) serta cara menjalankan audit aksesibilitas. |
