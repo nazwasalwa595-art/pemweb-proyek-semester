@@ -14,35 +14,30 @@ AbsensiQR adalah aplikasi web sistem absensi modern yang aman, praktis, dan resp
 
 ---
 
-## Fitur & Struktur Halaman Utama
+## Bukti Pengujian Aksesibilitas & Responsivitas
 
-Halaman utama (`index.html`) dibangun dengan struktur HTML5 semantik dan memuat elemen-elemen berikut:
+### 1. Hasil Lighthouse Audit (Skor Sempurna 100/100)
+Pengujian dilakukan menggunakan Google Chrome DevTools (Lighthouse) pada mode Mobile untuk memastikan kualitas teknis dan aksesibilitas situs.
 
-- **Navigasi Utama (`<nav>`):** Akses cepat ke bagian Beranda, Login, dan Daftar.
-- **Hero Section (`<section id="beranda">`):** Memuat ringkasan singkat platform dan tombol aksi utama.
-- **Section Keunggulan (`<section id="keunggulan">`):** Menjelaskan 3 poin utama (Berbasis QR Code, Aman, dan Mudah Digunakan).
-- **Section Cara Kerja (`<section id="cara-kerja">`):** Langkah-langkah penggunaan sistem mulai dari pembuatan akun hingga pencatatan absensi.
-- **Formulir Saran (`<section id="kontak">`):** Form interaktif bagi pengguna untuk mengirimkan masukan atau pesan.
-- **Footer (`<footer>`):** Informasi kontak dan hak cipta platform.
+| Kategori | Skor | Status |
+| :--- | :---: | :--- |
+| **Performance** | 100 | Sangat Cepat / Optimal |
+| **Accessibility** | 100 | Sangat Ramah Aksesibilitas |
+| **Best Practices** | 100 | Memenuhi Standar Modern Web |
+| **SEO** | 100 | Teroptimasi untuk Mesin Pencari |
 
----
-
-## Aksesibilitas Dasar (Accessibility)
-
-Halaman ini telah menerapkan beberapa standar aksesibilitas web dasar:
-- Penggunaan atribut `lang="id"` pada tag HTML.
-- Atribut `alt` yang deskriptif pada semua gambar (`<img>` dan `<figure>`).
-- Pasangan elemen `<label for="...">` dan `id` yang sesuai pada form masukan.
-- Landasan navigasi yang jelas dengan `aria-label` serta tombol *skip link* ("Lewati ke konten utama").
-- Hirarki heading yang terstruktur dan logis (`<h1>` hingga `<h3>`).
+*(Lampiran Bukti Screenshot: Terdapat dalam file Pdf)*
 
 ---
 
-## Cara Menjalankan Proyek Secara Lokal
+### 2. Catatan Keputusan Desain (Design Decision Log)
 
-1. Pastikan server lokal seperti **Laragon** atau **XAMPP** sudah berjalan.
-2. Simpan folder proyek ini di dalam direktori server`C:/laragon/www/pemweb-proyek-semester`.
-3. Buka browser dan akses melalui URL:
-   ```text
-   [http://localhost/pemweb-proyek-semester/](http://localhost/pemweb-proyek-semester/)
+* **Penggunaan HTML Semantik Murni**: Seluruh struktur halaman dibangun tanpa menggunakan tag `<div>`, melainkan memanfaatkan tag semantik HTML5 seperti `<header>`, `<nav>`, `<main>`, `<article>`, `<figure>`, dan `<footer>`. Keputusan ini diambil untuk memaksimalkan skor **Accessibility** dan memudahkan *screen reader* membaca navigasi serta isi dokumen.
+* **Layout Kartu Berbasis Grid & Flexbox**: Menggunakan pola desain *card-based surface* (`var(--surface)`) dengan batas tipis dan bayangan halus untuk menciptakan batas visual yang tegas dan rapi antar-seksi.
+* **Respon Layout Dinamis (2-Kolom)**: 
+  * Pada tampilan mobile, form kontak dan hero section tersusun secara vertikal demi kenyamanan sentuhan jari.
+  * Pada layar desktop (`min-width: 48rem`), form kontak dan section beranda bertransformasi menjadi 2 kolom menyamping (`display: grid`) untuk menghemat ruang vertikal dan menjaga simetri tampilan.
+* **Aksen Warna & Kontras Tinggi**: Menerapkan warna latar belakang terang dengan teks gelap (`var(--text-dark)`) guna menjaga kontras bacaan yang nyaman. Penggunaan warna aksen biru (`var(--primary)`) difokuskan pada tombol aksi (*Call to Action*) serta teks penjelas dalam tag `<span>` untuk menarik perhatian pengguna secara intuitif.
+
+[http://localhost/pemweb-proyek-semester/](http://localhost/pemweb-proyek-semester/)
    
