@@ -8,36 +8,62 @@ Angkatan : 2024
 Praktikum Pemrograman Web (OBE)
 
 
-# AbsensiQR - Sistem Absensi Berbasis QR Code
+# AbsensiQR - Sistem Absensi Digital Modern
 
-AbsensiQR adalah aplikasi web sistem absensi modern yang aman, praktis, dan responsif. Sistem ini dirancang untuk memudahkan guru, dosen, siswa, dan mahasiswa dalam melakukan serta mengelola pencatatan kehadiran secara real-time.
-
----
-
-## Bukti Pengujian Aksesibilitas & Responsivitas
-
-### 1. Hasil Lighthouse Audit (Skor Sempurna 100/100)
-Pengujian dilakukan menggunakan Google Chrome DevTools (Lighthouse) pada mode Mobile untuk memastikan kualitas teknis dan aksesibilitas situs.
-
-| Kategori | Skor | Status |
-| :--- | :---: | :--- |
-| **Performance** | 100 | Sangat Cepat / Optimal |
-| **Accessibility** | 100 | Sangat Ramah Aksesibilitas |
-| **Best Practices** | 100 | Memenuhi Standar Modern Web |
-| **SEO** | 100 | Teroptimasi untuk Mesin Pencari |
-
-*(Lampiran Bukti Screenshot: Terdapat dalam file Pdf)*
+AbsensiQR adalah aplikasi web sistem absensi modern yang aman, praktis, dan responsif. Platform ini dirancang menggunakan struktur semantik HTML5 murni tanpa menggunakan tag `<div>`, serta mematuhi standar aksesibilitas web (WCAG dasar).
 
 ---
 
-### 2. Catatan Keputusan Desain (Design Decision Log)
+##  Identitas & Lingkungan Pengembangan
 
-* **Penggunaan HTML Semantik Murni**: Seluruh struktur halaman dibangun tanpa menggunakan tag `<div>`, melainkan memanfaatkan tag semantik HTML5 seperti `<header>`, `<nav>`, `<main>`, `<article>`, `<figure>`, dan `<footer>`. Keputusan ini diambil untuk memaksimalkan skor **Accessibility** dan memudahkan *screen reader* membaca navigasi serta isi dokumen.
-* **Layout Kartu Berbasis Grid & Flexbox**: Menggunakan pola desain *card-based surface* (`var(--surface)`) dengan batas tipis dan bayangan halus untuk menciptakan batas visual yang tegas dan rapi antar-seksi.
-* **Respon Layout Dinamis (2-Kolom)**: 
-  * Pada tampilan mobile, form kontak dan hero section tersusun secara vertikal demi kenyamanan sentuhan jari.
-  * Pada layar desktop (`min-width: 48rem`), form kontak dan section beranda bertransformasi menjadi 2 kolom menyamping (`display: grid`) untuk menghemat ruang vertikal dan menjaga simetri tampilan.
-* **Aksen Warna & Kontras Tinggi**: Menerapkan warna latar belakang terang dengan teks gelap (`var(--text-dark)`) guna menjaga kontras bacaan yang nyaman. Penggunaan warna aksen biru (`var(--primary)`) difokuskan pada tombol aksi (*Call to Action*) serta teks penjelas dalam tag `<span>` untuk menarik perhatian pengguna secara intuitif.
+* **Mata Kuliah:** Pemrograman Web (OBE)
+* **Studi Kasus Proyek:** Platform Absensi QR Code untuk Sekolah/Perguruan Tinggi
+* **Teknologi:** HTML5 (Semantik), CSS3 (Flexbox, Grid, Data Attribute), JavaScript ES6 (Modules, DOM, Event Delegation)
+* **Server Lokal:** Laragon 5 (Apache & PHP 8.4)
+* **URL Lokal:** `http://localhost/pemweb-proyek-semester/`
+* **Repository GitHub:** `nazwasalwa595-art/pemweb-proyek-semester`
 
-[http://localhost/pemweb-proyek-semester/](http://localhost/pemweb-proyek-semester/)
-   
+---
+
+## Fitur Utama & Struktur Halaman
+
+Halaman utama (`index.html`) dibangun secara terstruktur dan memuat komponen-komponen berikut:
+
+1. **Header & Navigasi (`<header>`, `<nav>`):** Akses cepat ke halaman Beranda, Keunggulan, Inventaris, dan Kontak. Memuat tombol pemicu ganti tema (*Dark Mode/Light Mode*).
+2. **Hero Section (`<section id="beranda">`):** Memuat teks pengenalan platform dan tombol pemicu utama.
+3. **Keunggulan Layanan (`<section id="keunggulan">`):** Menjelaskan 3 poin utama (Berbasis QR Code, Aman, dan Mudah Digunakan).
+4. **Cara Kerja (`<section id="cara-kerja">`):** Langkah-langkah penggunaan sistem dari registrasi hingga pencatatan kehadiran.
+5. **Daftar Inventaris Alat (`<section id="inventaris-section">`):** Area dinamis berbasis DOM Manipulation yang menampilkan kartu alat, input pencarian real-time, filter kondisi, serta counter data.
+6. **Formulir Saran (`<section id="kontak">`):** Form interaktif bagi pengguna untuk mengirimkan masukan.
+7. **Footer (`<footer>`):** Informasi hak cipta dan tautan repositori proyek.
+
+---
+
+## Modul 5: Interaktivitas DOM, Event Handling, & Web Storage
+
+Pada pengembangan Modul 5, sistem diintegrasikan dengan fitur interaktif berbasis JavaScript murni (`js/app.js` dan `js/utils.js`):
+
+### 1. Tiga Interaksi Utama (DOM & Event)
+- **Filter Kondisi Alat (`click` event):** Menyaring kartu inventaris berdasarkan kondisi barang ("Semua", "Baik", "Perlu Cek").
+- **Pencarian Nama Real-Time (`input` event):** Menyaring kartu inventaris secara otomatis saat pengguna mengetik nama alat pada input pencarian.
+- **Event Delegation Detail (`click` event pada `#daftar-alat`):** Menggunakan teknik *event delegation* pada container utama untuk merespons klik tombol `.btn-detail` dari kartu dinamis.
+
+### 2. Penggunaan Web Storage (Data Non-Sensitif)
+- **`theme`**: Menyimpan preferensi tema warna (`dark` / `light`) pada `localStorage` agar tema terpilih tetap bertahan saat halaman di-refresh.
+- **`absensi_filter_kondisi`**: Menyimpan status filter kondisi terakhir yang dipilih pengguna ke dalam `localStorage`.
+
+### 3. Bagan Alur Event & State
+```text
+[Pengguna Melakukan Aksi]
+       │
+       ├──► Klik Tombol Filter / Ketik Search / Klik Detail Card
+       │
+[Event Handler Dipicu] (click / input)
+       │
+       ├──► State Diperbarui (filterKondisiSekarang, kataKunciCari)
+       │
+[Web Storage Diperbarui] (localStorage.setItem)
+       │
+[DOM Render Ulang] (terapkanFilterDanRender -> replaceChildren)
+       │
+[Tampilan Browser Berubah Dinamis Tanpa Reload]

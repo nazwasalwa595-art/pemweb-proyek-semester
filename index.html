@@ -107,7 +107,25 @@
         <p>Absensi berhasil! Data kehadiran otomatis tersimpan dan dapat dilihat guru/dosen.</p>
       </article>
     </section>
+    
+<!-- Section Inventaris Alat (Modul 5 & Tugas OBE) -->
+    <section id="inventaris-section">
+      <h2>Daftar Inventaris Alat</h2>
 
+      <p id="filter-container">
+        <button type="button" class="btn-filter" data-filter="Semua">Semua</button>
+        <button type="button" class="btn-filter" data-filter="Baik">Baik</button>
+        <button type="button" class="btn-filter" data-filter="Perlu Cek">Perlu Cek</button>
+
+        <input type="search" id="input-cari" placeholder="Cari nama alat..." aria-label="Cari nama alat">
+      </p>
+
+      <p id="info-counter">Menampilkan <strong id="jumlah-tampil">0</strong> dari <strong id="jumlah-total">0</strong> alat.</p>
+
+      <!-- Tempat kartu-kartu inventaris dirender oleh JS -->
+      <section id="daftar-alat" class="cards-grid"></section>
+    </section>
+    
     <!-- Section 4: Kirimkan Saran Anda (Form) -->
     <section id="kontak">
       <article>
