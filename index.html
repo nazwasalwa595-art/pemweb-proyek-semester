@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.">
   <title>AbsensiQR - Absensi Lebih Mudah Dengan QR Code</title>
+  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,32 +14,33 @@
   <header>
     <a href="#main">Lewati ke konten utama</a>
     
-    <img src="logo_absensiqr.png" alt="Logo resmi AbsensiQR" width="120">
+    <img src="logo_absensiqr.png" alt="Logo resmi AbsensiQR" width="100">
     <h1>Absensi<span>QR</span></h1>
 
     <nav aria-label="Navigasi Utama">
       <a href="#beranda">Beranda</a>
-      <a href="#login">Login</a>
-      <a href="#daftar">Daftar</a>
+      <a href="#keunggulan">Keunggulan</a>
+      <a href="#cara-kerja">Cara Kerja</a>
+      <a href="#kontak">Kirim Saran</a>
     </nav>
   </header>
 
   <!-- Konten Utama -->
   <main id="main">
 
-    <!-- Section 1: Hero Section (Beranda) -->
+    <!-- Section 1: Hero Section (Beranda - Pas & Tidak Terlalu Kebesaran) -->
     <section id="beranda">
       <article>
         <h2>Absensi Lebih Mudah Dengan <span>QR Code</span></h2>
         <p>AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.</p>
         <p>
-          <a href="#login">Login</a>
-          <a href="#daftar">Daftar</a>
+          <a href="#login" class="btn-primary">Login</a>
+          <a href="#daftar" class="btn-secondary">Daftar</a>
         </p>
       </article>
 
       <figure>
-        <img src="gambar_ilustrasi_scanqr.png" alt="Ilustrasi pemindaian QR Code di smartphone dengan status Absensi Berhasil" width="320">
+        <img src="gambar_ilustrasi_scanqr.png" alt="Ilustrasi pemindaian QR Code di smartphone dengan status Absensi Berhasil">
       </figure>
     </section>
 
@@ -48,25 +50,25 @@
 
       <article>
         <h3>Berbasis QR Code</h3>
-      <figure>
-        <img src="Keunggulan1.png" alt="gambar untuk keunggulan nomor 1" width="60">
-      </figure>        
+        <figure>
+          <img src="keunggulan1.png" alt="Gambar keunggulan berbasis QR Code 1">
+        </figure>
         <p>Siswa cukup scan QR untuk melakukan absensi dengan cepat dan mudah.</p>
       </article>
 
       <article>
         <h3>Aman</h3>
-      <figure>
-        <img src="Keunggulan2.png" alt="gambar untuk keunggulan nomor 2" width="65">
-      </figure>
+        <figure>
+          <img src="keunggulan2.png" alt="Gambar keunggulan berbasis QR Code 2">
+        </figure>
         <p>Data absensi tersimpan dengan aman di database dan hanya bisa diakses oleh pihak terkait.</p>
       </article>
 
       <article>
         <h3>Mudah Digunakan</h3>
-      <figure>
-        <img src="Keunggulan3.png" alt="gambar untuk keunggulan nomor 3" width="65">
-      </figure>
+        <figure>
+          <img src="keunggulan3.png" alt="Gambar keunggulan berbasis QR Code 3">
+        </figure>
         <p>Interface sederhana dan responsif, dapat digunakan di berbagai perangkat.</p>
       </article>
     </section>
@@ -77,88 +79,109 @@
 
       <article>
         <h3>1. Daftar / Login</h3>
-      <figure>
-        <img src="carakerja1.png" alt="gambar untuk cara kerja nomor 1" width="70">
-      </figure>        
+        <figure>
+          <img src="carakerja1.png" alt="Gambar cara kerja 1">
+        </figure>
         <p>Guru, dosen, siswa, atau mahasiswa membuat akun atau login terlebih dahulu.</p>
       </article>
 
       <article>
         <h3>2. Guru/Dosen Membuat Absensi</h3>
-       <figure>
-        <img src="carakerja2.png" alt="gambar untuk cara kerja nomor 2" width="75">
-      </figure>       
+        <figure>
+          <img src="carakerja2.png" alt="Gambar cara kerja 2">
+        </figure>
         <p>Guru atau dosen membuat sesi absensi dan sistem akan menghasilkan QR Code.</p>
       </article>
 
       <article>
         <h3>3. Siswa Scan QR</h3>
-       <figure>
-        <img src="carakerja3.png" alt="gambar untuk cara kerja nomor 3" width="75">
-      </figure>       
+        <figure>
+          <img src="carakerja3.png" alt="Gambar cara kerja 3">
+        </figure>
         <p>Siswa atau mahasiswa memindai QR Code menggunakan kamera.</p>
       </article>
 
       <article>
         <h3>4. Absensi Tercatat</h3>
-      <figure>
-        <img src="carakerja4.png" alt="gambar untuk cara kerja nomor 4" width="65">
-      </figure>        
+        <figure>
+          <img src="carakerja4.png" alt="Gambar cara kerja 4">
+        </figure>
         <p>Absensi berhasil! Data kehadiran otomatis tersimpan dan dapat dilihat guru/dosen.</p>
       </article>
     </section>
-    
-<!-- Section Inventaris Alat (Modul 5 & Tugas OBE) -->
-    <section id="inventaris-section">
-      <h2>Daftar Inventaris Alat</h2>
 
-      <p id="filter-container">
-        <button type="button" class="btn-filter" data-filter="Semua">Semua</button>
-        <button type="button" class="btn-filter" data-filter="Baik">Baik</button>
-        <button type="button" class="btn-filter" data-filter="Perlu Cek">Perlu Cek</button>
-
-        <input type="search" id="input-cari" placeholder="Cari nama alat..." aria-label="Cari nama alat">
-      </p>
-
-      <p id="info-counter">Menampilkan <strong id="jumlah-tampil">0</strong> dari <strong id="jumlah-total">0</strong> alat.</p>
-
-      <!-- Tempat kartu-kartu inventaris dirender oleh JS -->
-      <section id="daftar-alat" class="cards-grid"></section>
-    </section>
-    
-    <!-- Section 4: Kirimkan Saran Anda (Form) -->
+  <!-- Section 4: Kirimkan Saran Anda (MURNI TANPA DIV) -->
     <section id="kontak">
-      <article>
+      <!-- Kolom Kiri: Informasi, Gambar & Area Hasil Preview Saran -->
+      <article class="saran-info">
         <h2>Kirimkan Saran Anda</h2>
         <p>Bantu kami meningkatkan layanan AbsensiQR dengan memberikan saran atau masukan Anda.</p>
-      <figure>
-        <img src="Kirimsaran.png" alt="Gambar ilustrasi masengge" width="160">
-      </figure>        
+        <figure>
+          <img src="kirimsaran.png" alt="Gambar ilustrasi mengirim saran atau masukan">
+        </figure>
+
+        <!-- Area Preview Jawaban: SEKARANG TAMPIL DI SISI KIRI DI BAWAH GAMBAR -->
+        <article id="preview-container" hidden>
+          <h3>Terima Kasih Atas Saran Anda!</h3>
+          <p id="preview-content"></p>
+        </article>
       </article>
 
-      <form action="#" method="POST">
-        <p>
-          <label for="nama">Nama</label>
-          <input id="nama" name="nama" type="text" placeholder="Masukkan nama Anda" required>
-        </p>
-        <p>
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="Masukkan email Anda" required>
-        </p>
-        <p>
-          <label for="saran">Saran / Pesan</label>
-          <textarea id="saran" name="saran" rows="4" placeholder="Tulis saran Anda di sini..." required></textarea>
-        </p>
-        <button type="submit">Kirim Saran</button>
-      </form>
-    </section>
+      <!-- Kolom Kanan: Form Isian -->
+      <article class="saran-form-box">
+        <!-- Area Pesan Status Global -->
+        <span id="form-summary" aria-live="polite"></span>
 
+        <form id="form-saran" action="#" method="POST" novalidate>
+          <p>
+            <label for="nama">Nama</label>
+            <input 
+              id="nama" 
+              name="nama" 
+              type="text" 
+              placeholder="Masukkan nama Anda" 
+              required 
+              aria-describedby="err-nama"
+            >
+            <span id="err-nama" class="error-msg" aria-live="polite"></span>
+          </p>
+
+          <p>
+            <label for="email">Email</label>
+            <input 
+              id="email" 
+              name="email" 
+              type="email" 
+              placeholder="Masukkan email Anda" 
+              required 
+              aria-describedby="err-email"
+            >
+            <span id="err-email" class="error-msg" aria-live="polite"></span>
+          </p>
+
+          <p>
+            <label for="saran">Saran / Pesan</label>
+            <textarea 
+              id="saran" 
+              name="saran" 
+              rows="4" 
+              placeholder="Tulis saran Anda di sini..." 
+              required 
+              aria-describedby="err-saran"
+            ></textarea>
+            <span id="err-saran" class="error-msg" aria-live="polite"></span>
+          </p>
+
+          <button type="submit" id="btn-submit-saran">Kirim Saran</button>
+        </form>
+      </article>
+    </section>
+    
   </main>
 
   <!-- Footer -->
   <footer>
     <section>
-   
       <h2>Absensi<span>QR</span></h2>
       <p>Sistem absensi modern berbasis QR Code untuk memudahkan pencatatan kehadiran.</p>
     </section>
