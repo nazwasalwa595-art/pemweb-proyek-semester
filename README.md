@@ -25,45 +25,48 @@ AbsensiQR adalah aplikasi web sistem absensi modern yang aman, praktis, dan resp
 
 ---
 
-## Fitur Utama & Struktur Halaman
+## Fitur & Implementasi Teknis (Tugas 6)
 
-Halaman utama (`index.html`) dibangun secara terstruktur dan memuat komponen-komponen berikut:
+### 1. Form Aksesibel & Semantik
+* **HTML5 Semantik Murni:** Dibangun menggunakan elemen `<section>`, `<article>`, `<figure>`, dan `<p>` tanpa menggunakan elemen `<div>`[cite: 34, 36].
+* **Integrasi Aksesibilitas:**
+  * Penggunaan `<label for="...">` yang terhubung presisi dengan `id="..."` pada setiap bidang *input*[cite: 34, 36].
+  * Atribut `aria-describedby` menghubungkan *input* dengan pesan *error* terkait[cite: 34, 36].
+  * Atribut `aria-live="polite"` dipasang pada *error summary* (`#form-summary`) dan pesan *error* agar terbaca oleh *screen reader* saat terjadi kegagalan[cite: 34, 36].
+  * Fitur *auto-focus* mengarahkan kursor secara otomatis ke elemen *input error* pertama[cite: 34].
 
-1. **Header & Navigasi (`<header>`, `<nav>`):** Akses cepat ke halaman Beranda, Keunggulan, Inventaris, dan Kontak. Memuat tombol pemicu ganti tema (*Dark Mode/Light Mode*).
-2. **Hero Section (`<section id="beranda">`):** Memuat teks pengenalan platform dan tombol pemicu utama.
-3. **Keunggulan Layanan (`<section id="keunggulan">`):** Menjelaskan 3 poin utama (Berbasis QR Code, Aman, dan Mudah Digunakan).
-4. **Cara Kerja (`<section id="cara-kerja">`):** Langkah-langkah penggunaan sistem dari registrasi hingga pencatatan kehadiran.
-5. **Daftar Inventaris Alat (`<section id="inventaris-section">`):** Area dinamis berbasis DOM Manipulation yang menampilkan kartu alat, input pencarian real-time, filter kondisi, serta counter data.
-6. **Formulir Saran (`<section id="kontak">`):** Form interaktif bagi pengguna untuk mengirimkan masukan.
-7. **Footer (`<footer>`):** Informasi hak cipta dan tautan repositori proyek.
+### 2. Aturan Validasi Bisnis JavaScript (`js/utils.js`)
+* **Nama Lengkap:** Wajib diisi, minimal 3 karakter, dan hanya boleh memuat huruf, spasi, titik (`.`), dan tanda petik (`'`) via Regex `/^[a-zA-Z\s.']+$/`[cite: 35].
+* **Email:** Wajib diisi dan harus memenuhi format alamat email valid (Regex)[cite: 35].
+* **Saran / Pesan:** Wajib diisi dengan panjang minimal 10 karakter[cite: 35].
+* **Normalisasi Data:** Data diolah dengan `.trim()` dan `.toLowerCase()` sebelum diperiksa[cite: 34, 35].
 
 ---
 
-## Modul 5: Interaktivitas DOM, Event Handling, & Web Storage
+##  Catatan Peer / Code Review & Hasil Perbaikan
 
-Pada pengembangan Modul 5, sistem diintegrasikan dengan fitur interaktif berbasis JavaScript murni (`js/app.js` dan `js/utils.js`):
+* **Temuan Review (Penyempurnaan Validasi Input Nama):**
+  * **Temuan:** Kolom *Nama* sebelumnya masih menerima masukan berupa angka dan karakter simbol khusus (seperti "Nazwa123" atau "Salwa@"), sehingga data kurang rapi.
+  * **Perbaikan:** Menambahkan aturan validasi *Regex* `/^[a-zA-Z\s.']+$/` pada fungsi `validateFormSaran()` di `js/utils.js`. Dengan aturan ini, gelar atau nama khusus (seperti `Dr. Salwa` atau `D'Angelo`) tetap diizinkan, sedangkan angka dan simbol lain akan ditolak[cite: 35].
 
-### 1. Tiga Interaksi Utama (DOM & Event)
-- **Filter Kondisi Alat (`click` event):** Menyaring kartu inventaris berdasarkan kondisi barang ("Semua", "Baik", "Perlu Cek").
-- **Pencarian Nama Real-Time (`input` event):** Menyaring kartu inventaris secara otomatis saat pengguna mengetik nama alat pada input pencarian.
-- **Event Delegation Detail (`click` event pada `#daftar-alat`):** Menggunakan teknik *event delegation* pada container utama untuk merespons klik tombol `.btn-detail` dari kartu dinamis.
+---
 
-### 2. Penggunaan Web Storage (Data Non-Sensitif)
-- **`theme`**: Menyimpan preferensi tema warna (`dark` / `light`) pada `localStorage` agar tema terpilih tetap bertahan saat halaman di-refresh.
-- **`absensi_filter_kondisi`**: Menyimpan status filter kondisi terakhir yang dipilih pengguna ke dalam `localStorage`.
+##  Refleksi: Client-Side vs Server-Side Validation
 
-### 3. Bagan Alur Event & State
-```text
-[Pengguna Melakukan Aksi]
-       │
-       ├──► Klik Tombol Filter / Ketik Search / Klik Detail Card
-       │
-[Event Handler Dipicu] (click / input)
-       │
-       ├──► State Diperbarui (filterKondisiSekarang, kataKunciCari)
-       │
-[Web Storage Diperbarui] (localStorage.setItem)
-       │
-[DOM Render Ulang] (terapkanFilterDanRender -> replaceChildren)
-       │
-[Tampilan Browser Berubah Dinamis Tanpa Reload]
+* **Client-Side Validation (Validasi Sisi Klien):**
+  Berfungsi utama untuk meningkatkan **User Experience (UX)**[cite: 34]. Validasi ini memberikan umpan balik (*feedback*) secara langsung dan cepat kepada pengguna tanpa harus melakukan *reload* atau mengirim *request* ke server[cite: 34]. Namun, validasi sisi klien tidak bisa diandalkan dari segi keamanan karena kodenya berada di browser dan dapat dimatikan atau dimanipulasi oleh pengguna[cite: 34].
+
+* **Server-Side Validation (Validasi Sisi Server):**
+  Berfungsi sebagai **Garda Utama Keamanan (Security Gate)**[cite: 34]. Server wajib memeriksa ulang seluruh data yang masuk untuk mencegah serangan siber (seperti *SQL Injection* atau *XSS*) dan memastikan integritas data tetap terjaga sebelum disimpan ke database[cite: 34]. 
+
+**Kesimpulan:** *Client-side validation* digunakan untuk **UX dan kenyamanan pengguna**, sedangkan *server-side validation* digunakan untuk **keamanan sistem yang bersifat mutlak**[cite: 34].
+
+---
+
+## 💻 Cara Menjalankan Proyek di Server Lokal (Laragon)
+
+1. Pastikan aplikasi **Laragon** sudah berjalan (`Start All`)[cite: 36, 41].
+2. Letakkan folder proyek ini di dalam direktori `C:\laragon\www\pemweb-proyek-semester`[cite: 36, 41].
+3. Buka peramban (*browser*) dan akses URL berikut[cite: 36, 41]:
+   ```text
+   http://localhost/pemweb-proyek-semester/
