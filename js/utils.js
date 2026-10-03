@@ -1,26 +1,39 @@
-/* js/utils.js Modul fungsi pembantu (utility) untuk pengolahan & pencarian data AbsensiQR */
+/* js/utils.js - Modul Validasi Form Saran & Helper Proyek Semester */
 
-export function ringkasAbsensi(data) {
-  if (!Array.isArray(data)) {
-    throw new TypeError('Data harus berupa array');
+/**
+ * Validasi Bisnis Form Kirim Saran (Tugas 6)
+ * @param {Object} data - Object data ter-normalize (.trim(), .toLowerCase())
+ * @returns {Object} errors - Object berisi daftar pesan error per field
+ */
+export function validateFormSaran(data) {
+  const errors = {};
+
+  // Regex: Hanya membolehkan Huruf, Spasi, Tanda Titik (.), dan Tanda Petik Tunggal (')
+  const namaRegex = /^[a-zA-Z\s.']+$/;
+
+  // 1. Validasi Nama Lengkap (Wajib, Minimal 3 Karakter, Bebas Angka & Karakter Khusus)
+  if (!data.nama) {
+    errors.nama = 'Nama lengkap wajib diisi.';
+  } else if (data.nama.length < 3) {
+    errors.nama = 'Format nama tidak valid: minimal harus 3 karakter.';
+  } else if (!namaRegex.test(data.nama)) {
+    errors.nama = 'Nama hanya boleh berisi huruf, spasi, titik (.), dan tanda petik (\'). Angka atau simbol lain tidak diperbolehkan.';
   }
 
-  return {
-    totalPeserta: data.length,
-    totalHadir: data.reduce((sum, item) => sum + item.hadir, 0),
-    perluEvaluasi: data.filter(item => item.status !== 'Hadir').length
-  };
-}
+  // 2. Validasi Email (Wajib & Format Regex Email Valid)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!data.email) {
+    errors.email = 'Alamat email wajib diisi.';
+  } else if (!emailRegex.test(data.email)) {
+    errors.email = 'Format email tidak valid (contoh: nama@domain.com).';
+  }
 
-export function cariAbsensiSesuaiLokasi(data, lokasiCari) {
-  return data.filter(item => item.lokasi === lokasiCari);
-}
+  // 3. Validasi Saran / Pesan (Wajib & Minimal 10 Karakter)
+  if (!data.saran) {
+    errors.saran = 'Saran/pesan wajib diisi.';
+  } else if (data.saran.length < 10) {
+    errors.saran = 'Saran terlalu pendek: minimal tuliskan 10 karakter.';
+  }
 
-export function cariPesertaDenganId(data, idCari) {
-  return data.find(item => item.id === idCari);
-}
-
-export function buatStringRingkasan(item) {
-  const { nama, peran, hadir, status, lokasi } = item;
-  return `Peserta [${nama}] (${peran}) telah hadir ${hadir} sesi dengan status ${status}, berlokasi di ${lokasi}.`;
+  return errors;
 }

@@ -1,135 +1,24 @@
-/* js/app.js - Logika Interaktivitas DOM, Event Handling, & Web Storage */
+/* js/app.js - Inisialisasi Fitur Landing Page & Form Validasi Proyek Semester */
 
-// 1. Data Inventaris Alat Utama
-const inventaris = [
-  { id: 1, nama: 'Scanner QR Code', kategori: 'Perangkat', jumlah: 5, kondisi: 'Baik', lokasi: 'Lab Komputer 1' },
-  { id: 2, nama: 'Webcam HD Absensi', kategori: 'Kamera', jumlah: 3, kondisi: 'Baik', lokasi: 'Ruang Kelas 3A' },
-  { id: 3, nama: 'Tablet Presensi', kategori: 'Perangkat', jumlah: 2, kondisi: 'Perlu Cek', lokasi: 'Lab Komputer 1' },
-  { id: 4, nama: 'Kabel LAN UTP', kategori: 'Jaringan', jumlah: 10, kondisi: 'Perlu Cek', lokasi: 'Lab Komputer 1' }
-];
+import { validateFormSaran } from './utils.js';
 
-// Key Web Storage
-const KEY_STORAGE_FILTER = 'absensi_filter_kondisi';
+// Key Storage
 const KEY_STORAGE_THEME = 'theme';
 
-let filterKondisiSekarang = localStorage.getItem(KEY_STORAGE_FILTER) ?? 'Semua';
-let kataKunciCari = '';
-
-// Fungsi Utama Inisialisasi DOM
-function inisialisasiDaftarAlat() {
-  const containerDaftar = document.querySelector('#daftar-alat');
-  const tombolFilter = document.querySelectorAll('[data-filter]');
-  const inputCari = document.querySelector('#input-cari');
-  const elemJumlahTampil = document.querySelector('#jumlah-tampil');
-  const elemJumlahTotal = document.querySelector('#jumlah-total');
-
-  // Jika container elemen tempat kartu tidak ditemukan di HTML, hentikan
-  if (!containerDaftar) return;
-
-  function renderItems(items) {
-    // Bersihkan isi container sebelumnya
-    containerDaftar.replaceChildren();
-
-    // Update Counter Informasi
-    if (elemJumlahTampil) elemJumlahTampil.textContent = items.length;
-    if (elemJumlahTotal) elemJumlahTotal.textContent = inventaris.length;
-
-    if (items.length === 0) {
-      const pesanKosong = document.createElement('p');
-      pesanKosong.textContent = 'Tidak ada data inventaris yang ditemukan.';
-      containerDaftar.append(pesanKosong);
-      return;
-    }
-
-    // Generate Kartu <article> Dinamis
-    for (const item of items) {
-      const article = document.createElement('article');
-      article.className = 'card';
-
-      const title = document.createElement('h3');
-      title.textContent = item.nama;
-
-      const info = document.createElement('p');
-      info.textContent = `${item.kategori} - ${item.jumlah} unit - Kondisi: ${item.kondisi}`;
-
-      // Tombol Detail untuk Event Delegation
-      const btnDetail = document.createElement('button');
-      btnDetail.type = 'button';
-      btnDetail.className = 'btn-detail';
-      btnDetail.dataset.id = item.id;
-      btnDetail.textContent = 'Lihat Detail';
-
-      article.append(title, info, btnDetail);
-      containerDaftar.append(article);
-    }
-  }
-
-  function terapkanFilterDanRender() {
-    const hasil = inventaris.filter((item) => {
-      const cocokKondisi = filterKondisiSekarang === 'Semua' || item.kondisi === filterKondisiSekarang;
-      const cocokNama = item.nama.toLowerCase().includes(kataKunciCari.toLowerCase());
-      return cocokKondisi && cocokNama;
-    });
-
-    renderItems(hasil);
-  }
-
-  // 1. Event Listener Input Search Real-time
-  if (inputCari) {
-    inputCari.addEventListener('input', (e) => {
-      kataKunciCari = e.target.value;
-      terapkanFilterDanRender();
-    });
-  }
-
-  // 2. Event Listener Tombol Filter Kondisi
-  tombolFilter.forEach((button) => {
-    button.addEventListener('click', () => {
-      filterKondisiSekarang = button.dataset.filter;
-      localStorage.setItem(KEY_STORAGE_FILTER, filterKondisiSekarang);
-
-      tombolFilter.forEach((b) => b.classList.remove('active'));
-      button.classList.add('active');
-
-      terapkanFilterDanRender();
-    });
-  });
-
-  // 3. Event Delegation Tombol Detail
-  containerDaftar.addEventListener('click', (event) => {
-    if (event.target.classList.contains('btn-detail')) {
-      const idAlat = parseInt(event.target.dataset.id, 10);
-      const detail = inventaris.find((item) => item.id === idAlat);
-
-      if (detail) {
-        alert(`--- DETAIL INVENTARIS ---
-Nama Alat: ${detail.nama}
-Kategori: ${detail.kategori}
-Jumlah: ${detail.jumlah} unit
-Kondisi: ${detail.kondisi}
-Lokasi Penyimpanan: ${detail.lokasi}`);
-      }
-    }
-  });
-
-  // Terapkan class active pada tombol filter sesuai LocalStorage
-  const btnAktif = document.querySelector(`[data-filter="${filterKondisiSekarang}"]`);
-  if (btnAktif) btnAktif.classList.add('active');
-
-  // Jalankan render awal
-  terapkanFilterDanRender();
-}
-
-// Inisialisasi Fitur Preferensi Tema (localStorage)
+// 1. Inisialisasi Fitur Preferensi Tema (Dark Mode)
 function inisialisasiFiturTema() {
-  const header = document.querySelector('header');
-  if (!header) return;
+  const headerNav = document.querySelector('header nav');
+  if (!headerNav) return;
 
-  const themeButton = document.createElement('button');
-  themeButton.id = 'theme-button';
-  themeButton.type = 'button';
-  themeButton.textContent = 'Ganti Tema';
-  header.appendChild(themeButton);
+  // Cek apakah tombol ganti tema sudah ada, jika belum buatkan
+  let themeButton = document.querySelector('#theme-button');
+  if (!themeButton) {
+    themeButton = document.createElement('button');
+    themeButton.id = 'theme-button';
+    themeButton.type = 'button';
+    themeButton.textContent = 'Ganti Tema';
+    headerNav.appendChild(themeButton);
+  }
 
   const savedTheme = localStorage.getItem(KEY_STORAGE_THEME) ?? 'light';
   document.documentElement.dataset.theme = savedTheme;
@@ -143,8 +32,88 @@ function inisialisasiFiturTema() {
   });
 }
 
-// Jalankan saat dokumen DOM siap
+// 2. Inisialisasi Handler Submit Form Saran
+function inisialisasiFormSaran() {
+  const formSaran = document.querySelector('#form-saran');
+  const formSummary = document.querySelector('#form-summary');
+  const previewContainer = document.querySelector('#preview-container');
+  const previewContent = document.querySelector('#preview-content');
+
+  if (!formSaran) return;
+
+  formSaran.addEventListener('submit', (event) => {
+    event.preventDefault(); // Mencegah reload halaman
+
+    // Reset status error visual
+    formSaran.querySelectorAll('.error-msg').forEach((span) => (span.textContent = ''));
+    formSaran.querySelectorAll('input, textarea').forEach((input) => input.removeAttribute('aria-invalid'));
+    if (formSummary) formSummary.textContent = '';
+    if (previewContainer) previewContainer.hidden = true;
+
+    // Normalisasi & Clean Data Input
+    const rawData = new FormData(formSaran);
+    const formData = {
+      nama: rawData.get('nama')?.trim() || '',
+      email: rawData.get('email')?.trim().toLowerCase() || '',
+      saran: rawData.get('saran')?.trim() || ''
+    };
+
+    // Jalankan Fungsi Validasi
+    const errors = validateFormSaran(formData);
+    const errorKeys = Object.keys(errors);
+
+    // Jika Ada Error
+    if (errorKeys.length > 0) {
+      if (formSummary) {
+        formSummary.textContent = `Terdapat ${errorKeys.length} kesalahan pada form. Silakan periksa pesan di bawah.`;
+        formSummary.style.color = '#dc2626';
+      }
+
+      let firstErrorField = null;
+
+      errorKeys.forEach((key) => {
+        const inputField = formSaran.querySelector(`[name="${key}"]`);
+        const errSpan = document.querySelector(`#err-${key}`);
+
+        if (inputField) {
+          inputField.setAttribute('aria-invalid', 'true');
+          if (!firstErrorField) firstErrorField = inputField;
+        }
+
+        if (errSpan) {
+          errSpan.textContent = errors[key];
+        }
+      });
+
+      // Fokuskan kursor ke field error pertama (Aksesibilitas)
+      if (firstErrorField) {
+        firstErrorField.focus();
+      }
+
+      return;
+    }
+
+    // Jika Valid: Tampilkan Preview Data
+    if (previewContainer && previewContent) {
+      previewContent.innerHTML = `
+        <strong>Nama:</strong> ${formData.nama}<br>
+        <strong>Email:</strong> ${formData.email}<br>
+        <strong>Saran/Pesan:</strong> ${formData.saran}
+      `;
+      previewContainer.hidden = false;
+
+      if (formSummary) {
+        formSummary.textContent = 'Terima kasih! Saran Anda berhasil dikirim.';
+        formSummary.style.color = '#166534';
+      }
+
+      formSaran.reset();
+    }
+  });
+}
+
+// Jalankan fungsi saat DOM siap
 document.addEventListener('DOMContentLoaded', () => {
-  inisialisasiDaftarAlat();
   inisialisasiFiturTema();
+  inisialisasiFormSaran();
 });
