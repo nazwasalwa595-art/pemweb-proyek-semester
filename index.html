@@ -7,12 +7,13 @@
   <title>AbsensiQR - Absensi Lebih Mudah Dengan QR Code</title>
   
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
 </head>
 <body>
 
   <!-- Header & Navigasi Utama -->
   <header>
-    <a href="#main">Lewati ke konten utama</a>
+    <a href="#main" class="skip-link">Lewati ke konten utama</a>
     
     <img src="logo_absensiqr.png" alt="Logo resmi AbsensiQR" width="100">
     <h1>Absensi<span>QR</span></h1>
@@ -28,108 +29,91 @@
   <!-- Konten Utama -->
   <main id="main">
 
-    <!-- Section 1: Hero Section (Beranda - Pas & Tidak Terlalu Kebesaran) -->
+    <!-- Section 1: Hero Section -->
     <section id="beranda">
       <article>
         <h2>Absensi Lebih Mudah Dengan <span>QR Code</span></h2>
         <p>AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.</p>
         <p>
-          <a href="#login" class="btn-primary">Login</a>
-          <a href="#daftar" class="btn-secondary">Daftar</a>
+          <a href="#kontak" class="btn-primary">Kirim Saran</a>
         </p>
       </article>
 
       <figure>
-        <img src="gambar_ilustrasi_scanqr.png" alt="Ilustrasi pemindaian QR Code di smartphone dengan status Absensi Berhasil">
+        <img src="gambar_ilustrasi_scanqr.png" alt="Ilustrasi pemindaian QR Code di smartphone">
       </figure>
     </section>
 
-    <!-- Section 2: Kenapa Memilih AbsensiQR? (Keunggulan) -->
+    <!-- Section 2: Keunggulan -->
     <section id="keunggulan">
       <h2>Kenapa Memilih AbsensiQR?</h2>
 
       <article>
         <h3>Berbasis QR Code</h3>
-        <figure>
-          <img src="keunggulan1.png" alt="Gambar keunggulan berbasis QR Code 1">
-        </figure>
+        <figure><img src="keunggulan1.png" alt="Gambar keunggulan berbasis QR Code"></figure>
         <p>Siswa cukup scan QR untuk melakukan absensi dengan cepat dan mudah.</p>
       </article>
 
       <article>
         <h3>Aman</h3>
-        <figure>
-          <img src="keunggulan2.png" alt="Gambar keunggulan berbasis QR Code 2">
-        </figure>
+        <figure><img src="keunggulan2.png" alt="Gambar keunggulan aman"></figure>
         <p>Data absensi tersimpan dengan aman di database dan hanya bisa diakses oleh pihak terkait.</p>
       </article>
 
       <article>
         <h3>Mudah Digunakan</h3>
-        <figure>
-          <img src="keunggulan3.png" alt="Gambar keunggulan berbasis QR Code 3">
-        </figure>
+        <figure><img src="keunggulan3.png" alt="Gambar keunggulan mudah digunakan"></figure>
         <p>Interface sederhana dan responsif, dapat digunakan di berbagai perangkat.</p>
       </article>
     </section>
 
-    <!-- Section 3: Bagaimana Cara Kerjanya? (Langkah) -->
+    <!-- Section 3: Cara Kerja -->
     <section id="cara-kerja">
       <h2>Bagaimana Cara Kerjanya?</h2>
 
       <article>
         <h3>1. Daftar / Login</h3>
-        <figure>
-          <img src="carakerja1.png" alt="Gambar cara kerja 1">
-        </figure>
+        <figure><img src="carakerja1.png" alt="Langkah 1"></figure>
         <p>Guru, dosen, siswa, atau mahasiswa membuat akun atau login terlebih dahulu.</p>
       </article>
 
       <article>
-        <h3>2. Guru/Dosen Membuat Absensi</h3>
-        <figure>
-          <img src="carakerja2.png" alt="Gambar cara kerja 2">
-        </figure>
+        <h3>2. Buat Absensi</h3>
+        <figure><img src="carakerja2.png" alt="Langkah 2"></figure>
         <p>Guru atau dosen membuat sesi absensi dan sistem akan menghasilkan QR Code.</p>
       </article>
 
       <article>
-        <h3>3. Siswa Scan QR</h3>
-        <figure>
-          <img src="carakerja3.png" alt="Gambar cara kerja 3">
-        </figure>
+        <h3>3. Scan QR</h3>
+        <figure><img src="carakerja3.png" alt="Langkah 3"></figure>
         <p>Siswa atau mahasiswa memindai QR Code menggunakan kamera.</p>
       </article>
 
       <article>
         <h3>4. Absensi Tercatat</h3>
-        <figure>
-          <img src="carakerja4.png" alt="Gambar cara kerja 4">
-        </figure>
+        <figure><img src="carakerja4.png" alt="Langkah 4"></figure>
         <p>Absensi berhasil! Data kehadiran otomatis tersimpan dan dapat dilihat guru/dosen.</p>
       </article>
     </section>
 
-  <!-- Section 4: Kirimkan Saran Anda (MURNI TANPA DIV) -->
+    <!-- Section 4: Kirimkan Saran Anda & Integrasi REST API (Modul 7) -->
     <section id="kontak">
-      <!-- Kolom Kiri: Informasi, Gambar & Area Hasil Preview Saran -->
       <article class="saran-info">
         <h2>Kirimkan Saran Anda</h2>
         <p>Bantu kami meningkatkan layanan AbsensiQR dengan memberikan saran atau masukan Anda.</p>
         <figure>
-          <img src="kirimsaran.png" alt="Gambar ilustrasi mengirim saran atau masukan">
+          <img src="kirimsaran.png" alt="Gambar ilustrasi mengirim saran">
         </figure>
 
-        <!-- Area Preview Jawaban: SEKARANG TAMPIL DI SISI KIRI DI BAWAH GAMBAR -->
+        <!-- Container Preview Respon API (Success State) -->
         <article id="preview-container" hidden>
           <h3>Terima Kasih Atas Saran Anda!</h3>
           <p id="preview-content"></p>
         </article>
       </article>
 
-      <!-- Kolom Kanan: Form Isian -->
       <article class="saran-form-box">
-        <!-- Area Pesan Status Global -->
+        <!-- Area Pesan Status Global (Loading / Error / Success Message) -->
         <span id="form-summary" aria-live="polite"></span>
 
         <form id="form-saran" action="#" method="POST" novalidate>
@@ -172,7 +156,7 @@
             <span id="err-saran" class="error-msg" aria-live="polite"></span>
           </p>
 
-          <button type="submit" id="btn-submit-saran">Kirim Saran</button>
+          <button type="submit" id="btn-submit-saran">Kirim Saran via API</button>
         </form>
       </article>
     </section>
