@@ -24,30 +24,22 @@ AbsensiQR adalah platform web sistem absensi modern yang aman, praktis, dan resp
 
 ---
 
-## 🚀 Dokumentasi REST API
+## Modul 09 - PHP 8.4 Backend & REST API (AbsensiQR)
 
-Integrasi REST API pada proyek ini digunakan untuk memproses dan menampilkan konfirmasi data kiriman saran pengguna secara dinamis[cite: 21, 24].
+### Spesifikasi Endpoint Backend
+- **PHP Version:** 8.4 (Laragon 5)
+- **Base URL:** `http://localhost/pemweb-proyek-semester/api/`
 
-### Tabel Spesifikasi Endpoint
-| Attribute | Detail |
-| --- | --- |
-| **Endpoint URL** | `./data/users.json` (Local Simulated Endpoint / Mock REST API) |
-| **HTTP Method** | `GET` / `POST` |
-| **Content-Type** | `application/json` |
-| **Status Code Sukses** | `200 OK` |
-| **Status Code Gagal** | `404 Not Found` / `500 Internal Server Error` |
-
-### Contoh Respon JSON (`200 OK`)
-```json
-[
+#### 1. GET /api/health.php
+- **Fungsi:** Memeriksa kesiapan dan status kesehatan server API AbsensiQR
+- **Response (200 OK):**
+  ```json
   {
-    "id": 1,
-    "nama": "nazwa salwa adellia",
-    "email": "nazwasalwa595@gmail.com",
-    "pesan": "Saran berhasil terkirim ke server REST API",
-    "status": "HTTP 200 OK (Terhubung)"
+    "status": "ok",
+    "app": "AbsensiQR REST API Service",
+    "version": "1.0.0",
+    "timestamp": "2026-10-24T20:00:00+08:00"
   }
-]
 
 ## 💻 Cara Menjalankan Proyek di Server Lokal (Laragon)
 
