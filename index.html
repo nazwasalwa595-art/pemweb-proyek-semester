@@ -6,7 +6,11 @@
   <meta name="description" content="AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.">
   <title>AbsensiQR - Absensi Lebih Mudah Dengan QR Code</title>
   
-  <link rel="stylesheet" href="style.css">
+<!-- Hubungkan 4 file modul CSS di folder css/ -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
   <link rel="icon" href="data:,">
 </head>
 <body>
@@ -23,19 +27,24 @@
       <a href="#keunggulan">Keunggulan</a>
       <a href="#cara-kerja">Cara Kerja</a>
       <a href="#kontak">Kirim Saran</a>
+      
+      <!-- Tombol Masuk & Ganti Tema Baru -->
+      <a href="login.html" class="nav-btn-login">Masuk</a>
+      <button type="button" id="theme-toggle" aria-label="Ganti Tema">🌙</button>
     </nav>
   </header>
 
   <!-- Konten Utama -->
   <main id="main">
 
-    <!-- Section 1: Hero Section -->
+<!-- Section 1: Hero Section -->
     <section id="beranda">
       <article>
         <h2>Absensi Lebih Mudah Dengan <span>QR Code</span></h2>
         <p>AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.</p>
         <p>
-          <a href="#kontak" class="btn-primary">Kirim Saran</a>
+          <a href="login.html" class="btn-primary">Login</a>
+          <a href="register.html" class="btn-secondary">Daftar</a>
         </p>
       </article>
 

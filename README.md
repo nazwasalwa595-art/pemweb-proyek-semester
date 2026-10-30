@@ -24,22 +24,48 @@ AbsensiQR adalah platform web sistem absensi modern yang aman, praktis, dan resp
 
 ---
 
-## Modul 09 - PHP 8.4 Backend & REST API (AbsensiQR)
+## 🗄️ Tugas 10 - Basis Data, ERD, dan Prepared Statement (Proyek AbsensiQR)
 
-### Spesifikasi Endpoint Backend
-- **PHP Version:** 8.4 (Laragon 5)
-- **Base URL:** `http://localhost/pemweb-proyek-semester/api/`
+### 1. ERD (Entity Relationship Diagram) Ringkas
+Struktur basis data `absensiqr_db` terdiri dari 3 tabel relasional utama:
 
-#### 1. GET /api/health.php
-- **Fungsi:** Memeriksa kesiapan dan status kesehatan server API AbsensiQR
-- **Response (200 OK):**
-  ```json
-  {
-    "status": "ok",
-    "app": "AbsensiQR REST API Service",
-    "version": "1.0.0",
-    "timestamp": "2026-10-24T20:00:00+08:00"
-  }
+```mermaid
+erDiagram
+    USERS ||--o{ KELAS : mengajar
+    USERS ||--o{ PRESENSI : melakukan
+    KELAS ||--o{ PRESENSI : memiliki
+
+    USERS {
+        int id PK
+        string username UK "NIM / NIP (Numeric Only)"
+        string nama
+        string email
+        string password
+        enum peran "Siswa/Mahasiswa, Guru/Dosen"
+        timestamp created_at
+    }
+    KELAS {
+        int id PK
+        string kode_kelas UK
+        string nama_kelas
+        int dosen_id FK
+    }
+    PRESENSI {
+        int id PK
+        int user_id FK
+        int kelas_id FK
+        timestamp waktu_absen
+        enum status "Hadir, Izin, Alpa"
+    }
+  ```
+
+  ### 🔒 Koneksi PDO & Prepared Statement
+
+- **Koneksi PDO Singleton (`config/database.php`):**
+  Menggunakan driver `PDO` MySQL dengan opsi `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION` dan `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC` untuk memastikan setiap kegagalan query melempar *exception* yang terstruktur.
+
+- **Query Aman (*Parameterized Query* di `models/User.php`):**
+  Seluruh operasi manipulasi data (seperti `register` dan `findByUsername`) menggunakan metode `$pdo->prepare()` dan `$stmt->execute()` dengan parameter binding (misalnya `:username`). Hal ini menjamin bahwa input pengguna diperlakukan murni sebagai data, bukan sebagai sintaksis kode SQL, sehingga kebal dari serangan *SQL Injection*[
 
 ## 💻 Cara Menjalankan Proyek di Server Lokal (Laragon)
 
@@ -48,3 +74,4 @@ AbsensiQR adalah platform web sistem absensi modern yang aman, praktis, dan resp
 3. Buka peramban (*browser*) dan akses URL berikut[cite: 36, 41]:
    ```text
    http://localhost/pemweb-proyek-semester/
+   

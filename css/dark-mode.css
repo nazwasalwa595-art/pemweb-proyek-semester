@@ -1,0 +1,66 @@
+/* ==========================================================================
+   6. TEMA GELAP (DARK MODE)
+   ========================================================================== */
+html[data-theme="dark"] body {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] header,
+html[data-theme="dark"] #beranda,
+html[data-theme="dark"] #keunggulan article,
+html[data-theme="dark"] #cara-kerja article,
+html[data-theme="dark"] #kontak,
+html[data-theme="dark"] .auth-container,
+html[data-theme="dark"] footer {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] header nav a {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] header nav a:hover {
+  background-color: #334155 !important;
+  color: #38bdf8 !important;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3 {
+  color: #38bdf8 !important;
+}
+
+html[data-theme="dark"] #beranda article h2 {
+  color: #f8fafc !important;
+  border-left-color: #38bdf8 !important;
+}
+
+html[data-theme="dark"] #kontak .saran-info p,
+html[data-theme="dark"] label,
+html[data-theme="dark"] p {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea {
+  background-color: #0f172a !important;
+  color: #ffffff !important;
+  border-color: #475569 !important;
+}
+
+html[data-theme="dark"] #theme-toggle {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+html[data-theme="dark"] .auth-link {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="dark"] .auth-link a {
+  color: #38bdf8 !important;
+}

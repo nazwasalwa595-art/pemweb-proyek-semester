@@ -1,8 +1,27 @@
-/* js/app.js - Diperbarui untuk terhubung ke Backend PHP 8.4 (Modul 9) */
+/* js/app.js - Pengatur Fitur Utama, Ganti Tema & REST API */
 
 import { validateFormSaran } from './utils.js';
 
-// Hubungkan Endpoint ke Backend PHP 8.4 Lokal
+// 1. Inisialisasi Fitur Toggle Tema (Dark/Light Mode)
+function inisialisasiFiturTema() {
+  const themeToggleBtn = document.querySelector('#theme-toggle');
+  if (!themeToggleBtn) return;
+
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  themeToggleBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+  themeToggleBtn.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  });
+}
+
+// 2. Hubungkan Endpoint REST API
 const endpoint = './api/saran.php';
 
 async function kirimSaranKeAPI(formData) {
@@ -10,14 +29,12 @@ async function kirimSaranKeAPI(formData) {
   const previewContainer = document.querySelector('#preview-container');
   const previewContent = document.querySelector('#preview-content');
 
-  // 1. LOADING STATE
   if (formSummary) {
     formSummary.innerHTML = '<span>Mengirim saran ke REST API PHP...</span>';
     formSummary.style.color = '#1e293b';
   }
 
   try {
-    // 2. HTTP Request POST ke Backend PHP
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -32,7 +49,6 @@ async function kirimSaranKeAPI(formData) {
       throw new Error(result.error || `HTTP Error Status: ${response.status}`);
     }
 
-    // 3. SUCCESS STATE
     if (formSummary) {
       formSummary.textContent = result.message || 'Terima kasih! Saran Anda berhasil terkirim.';
       formSummary.style.color = '#166534';
@@ -51,7 +67,6 @@ async function kirimSaranKeAPI(formData) {
   } catch (error) {
     console.error('REST API Error:', error);
 
-    // 4. ERROR STATE & TOMBOL RETRY
     if (formSummary) {
       formSummary.innerHTML = `
         <span style="color: #dc2626;">Gagal: ${error.message} </span>
@@ -67,3 +82,36 @@ async function kirimSaranKeAPI(formData) {
     }
   }
 }
+
+// 3. Jalankan Script Saat DOM Siap
+document.addEventListener('DOMContentLoaded', () => {
+  inisialisasiFiturTema();
+
+  const formSaran = document.querySelector('#form-saran');
+  if (formSaran) {
+    formSaran.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = {
+        nama: document.querySelector('#nama')?.value.trim() || '',
+        email: document.querySelector('#email')?.value.trim() || '',
+        saran: document.querySelector('#saran')?.value.trim() || ''
+      };
+
+      const errors = validateFormSaran(formData);
+      
+      // Bersihkan error message lama
+      document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
+
+      if (Object.keys(errors).length > 0) {
+        for (const [key, msg] of Object.entries(errors)) {
+          const errElement = document.querySelector(`#err-${key}`);
+          if (errElement) errElement.textContent = msg;
+        }
+        return;
+      }
+
+      kirimSaranKeAPI(formData);
+    });
+  }
+});
