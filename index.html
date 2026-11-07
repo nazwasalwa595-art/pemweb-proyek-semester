@@ -6,7 +6,7 @@
   <meta name="description" content="AbsensiQR adalah sistem absensi modern yang aman dan praktis untuk guru, dosen, siswa, dan mahasiswa.">
   <title>AbsensiQR - Absensi Lebih Mudah Dengan QR Code</title>
   
-<!-- Hubungkan 4 file modul CSS di folder css/ -->
+  <!-- Pemanggilan 4 berkas CSS Modular dari folder css/ -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -28,7 +28,7 @@
       <a href="#cara-kerja">Cara Kerja</a>
       <a href="#kontak">Kirim Saran</a>
       
-      <!-- Tombol Masuk & Ganti Tema Baru -->
+      <!-- Akses Log In & Fitur Toggle Tema -->
       <a href="login.html" class="nav-btn-login">Masuk</a>
       <button type="button" id="theme-toggle" aria-label="Ganti Tema">🌙</button>
     </nav>
@@ -37,7 +37,7 @@
   <!-- Konten Utama -->
   <main id="main">
 
-<!-- Section 1: Hero Section -->
+    <!-- Section 1: Hero Section -->
     <section id="beranda">
       <article>
         <h2>Absensi Lebih Mudah Dengan <span>QR Code</span></h2>
@@ -105,7 +105,7 @@
       </article>
     </section>
 
-    <!-- Section 4: Kirimkan Saran Anda & Integrasi REST API (Modul 7) -->
+    <!-- Section 4: Kirimkan Saran Anda & API Saran -->
     <section id="kontak">
       <article class="saran-info">
         <h2>Kirimkan Saran Anda</h2>
@@ -114,7 +114,7 @@
           <img src="kirimsaran.png" alt="Gambar ilustrasi mengirim saran">
         </figure>
 
-        <!-- Container Preview Respon API (Success State) -->
+        <!-- Preview Respon API (Success State) -->
         <article id="preview-container" hidden>
           <h3>Terima Kasih Atas Saran Anda!</h3>
           <p id="preview-content"></p>
@@ -122,7 +122,6 @@
       </article>
 
       <article class="saran-form-box">
-        <!-- Area Pesan Status Global (Loading / Error / Success Message) -->
         <span id="form-summary" aria-live="polite"></span>
 
         <form id="form-saran" action="#" method="POST" novalidate>

@@ -1,117 +1,222 @@
-/* js/app.js - Pengatur Fitur Utama, Ganti Tema & REST API */
+/* js/app.js - Integration Auth & CRUD Sesi Serta Search Real-Time */
 
-import { validateFormSaran } from './utils.js';
+const API_AUTH_URL = 'http://localhost/pemweb-proyek-semester/api/auth.php';
+const API_SESI_URL = 'http://localhost/pemweb-proyek-semester/api/sesi.php';
 
-// 1. Inisialisasi Fitur Toggle Tema (Dark/Light Mode)
-function inisialisasiFiturTema() {
-  const themeToggleBtn = document.querySelector('#theme-toggle');
-  if (!themeToggleBtn) return;
+const ROLE_KEY = 'absensi_user_role';
+const USER_KEY = 'absensi_user_name';
 
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  themeToggleBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+// -------------------------------------------------------------
+// A. LOGIKA LOGIN (Hanya berjalan di login.html)
+// -------------------------------------------------------------
+const formLogin = document.querySelector('#form-login');
+if (formLogin) {
+  formLogin.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const usernameInput = document.querySelector('#login-username')?.value.trim() || '';
+    const passwordInput = document.querySelector('#login-password')?.value || '';
+    const summaryMsg = document.querySelector('#login-summary');
 
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    themeToggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    if (!usernameInput || !passwordInput) {
+      alert('Username (NIP/NIM) dan Kata Sandi wajib diisi!');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_AUTH_URL}?action=login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: usernameInput, password: passwordInput })
+      });
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        localStorage.setItem(ROLE_KEY, result.data.role);
+        localStorage.setItem(USER_KEY, result.data.nama);
+
+        alert(`Login Berhasil!\nSelamat datang, ${result.data.nama}`);
+        window.location.href = (result.data.role === 'guru' || result.data.peran === 'Guru/Dosen') 
+          ? 'dashboard-guru.html' 
+          : 'dashboard-siswa.html';
+      } else {
+        if (summaryMsg) {
+          summaryMsg.style.display = 'block';
+          summaryMsg.textContent = result.message;
+        } else {
+          alert(result.message);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Koneksi ke server API gagal.');
+    }
   });
 }
 
-// 2. Hubungkan Endpoint REST API
-const endpoint = './api/saran.php';
-
-async function kirimSaranKeAPI(formData) {
-  const formSummary = document.querySelector('#form-summary');
-  const previewContainer = document.querySelector('#preview-container');
-  const previewContent = document.querySelector('#preview-content');
-
-  if (formSummary) {
-    formSummary.innerHTML = '<span>Mengirim saran ke REST API PHP...</span>';
-    formSummary.style.color = '#1e293b';
-  }
+// -------------------------------------------------------------
+// B. LOGIKA CRUD SESI & SEARCH (Hanya berjalan di dashboard-guru.html)
+// -------------------------------------------------------------
+async function muatDaftarSesi(query = '') {
+  const container = document.querySelector('#daftar-sesi');
+  if (!container) return;
 
   try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify(formData)
-    });
-
+    // Menghubungkan Query Parameter Search ke API
+    const url = query ? `${API_SESI_URL}?q=${encodeURIComponent(query)}` : API_SESI_URL;
+    const response = await fetch(url);
     const result = await response.json();
 
-    if (!response.ok) {
-      throw new Error(result.error || `HTTP Error Status: ${response.status}`);
+    container.replaceChildren();
+
+    if (!response.ok || !result.success || !result.data || result.data.length === 0) {
+      container.innerHTML = '<p style="color:#64748b; font-style:italic;">Tidak ada sesi mata kuliah ditemukan.</p>';
+      return;
     }
 
-    if (formSummary) {
-      formSummary.textContent = result.message || 'Terima kasih! Saran Anda berhasil terkirim.';
-      formSummary.style.color = '#166534';
-    }
-
-    if (previewContainer && previewContent) {
-      previewContent.innerHTML = `
-        <strong>Nama:</strong> ${formData.nama}<br>
-        <strong>Email:</strong> ${formData.email}<br>
-        <strong>Saran/Pesan:</strong> ${formData.saran}<br>
-        <small style="color: #047857; margin-top: 4px; display: inline-block;">Status API: HTTP ${response.status} (Backend PHP 8.4)</small>
+    result.data.forEach((item) => {
+      const card = document.createElement('article');
+      card.className = 'card-sesi';
+      card.style.cssText = 'border:1px solid #cbd5e1; padding:15px; border-radius:8px; margin-bottom:10px; background:var(--surface);';
+      card.innerHTML = `
+        <h3>${item.nama_sesi}</h3>
+        <p>Kode QR: <strong>${item.kode_qr}</strong> | Kategori: <strong>${item.kategori}</strong></p>
+        <p>Berlaku Sampai: ${item.berlaku_sampai}</p>
+        <div style="margin-top:10px; display:flex; gap:8px;">
+          <button type="button" style="background:#2563eb; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;" onclick="bukaModalEdit(${item.id}, '${item.nama_sesi}', '${item.kode_qr}', '${item.kategori}', '${item.berlaku_sampai}')">Edit</button>
+          <button type="button" style="background:#dc2626; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer;" onclick="hapusSesi(${item.id})">Hapus</button>
+        </div>
       `;
-      previewContainer.hidden = false;
-    }
-
-  } catch (error) {
-    console.error('REST API Error:', error);
-
-    if (formSummary) {
-      formSummary.innerHTML = `
-        <span style="color: #dc2626;">Gagal: ${error.message} </span>
-        <button type="button" id="btn-retry-saran" style="margin-left: 8px; padding: 4px 10px; cursor: pointer; border-radius: 4px; background: #2563eb; color: #fff; border: none;">
-          Coba Lagi (Retry)
-        </button>
-      `;
-
-      const btnRetry = document.querySelector('#btn-retry-saran');
-      if (btnRetry) {
-        btnRetry.addEventListener('click', () => kirimSaranKeAPI(formData));
-      }
-    }
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Fetch Sesi Error:', err);
   }
 }
 
-// 3. Jalankan Script Saat DOM Siap
-document.addEventListener('DOMContentLoaded', () => {
-  inisialisasiFiturTema();
+// Input Search Real-Time Event Listener
+const inputSearch = document.querySelector('#input-search');
+if (inputSearch) {
+  inputSearch.addEventListener('input', (e) => {
+    const kataKunci = e.target.value.trim();
+    muatDaftarSesi(kataKunci); // Memanggil pembaruan data secara langsung saat diketik
+  });
+}
 
-  const formSaran = document.querySelector('#form-saran');
-  if (formSaran) {
-    formSaran.addEventListener('submit', (e) => {
-      e.preventDefault();
+// Tambah Sesi (POST)
+const formCreate = document.querySelector('#form-buat-sesi');
+if (formCreate) {
+  formCreate.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      nama_sesi: document.querySelector('#nama_sesi').value.trim(),
+      kode_qr: document.querySelector('#kode_qr').value.trim(),
+      kategori: document.querySelector('#kategori').value,
+      berlaku_sampai: document.querySelector('#berlaku_sampai').value
+    };
 
-      const formData = {
-        nama: document.querySelector('#nama')?.value.trim() || '',
-        email: document.querySelector('#email')?.value.trim() || '',
-        saran: document.querySelector('#saran')?.value.trim() || ''
-      };
+    try {
+      const res = await fetch(API_SESI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
 
-      const errors = validateFormSaran(formData);
-      
-      // Bersihkan error message lama
-      document.querySelectorAll('.error-msg').forEach(el => el.textContent = '');
-
-      if (Object.keys(errors).length > 0) {
-        for (const [key, msg] of Object.entries(errors)) {
-          const errElement = document.querySelector(`#err-${key}`);
-          if (errElement) errElement.textContent = msg;
-        }
-        return;
+      if (res.ok && data.success) {
+        alert('Sesi berhasil dibuat!');
+        formCreate.reset();
+        muatDaftarSesi();
+      } else {
+        alert(`Gagal: ${data.message}`);
       }
+    } catch (err) {
+      console.error(err);
+    }
+  });
+}
 
-      kirimSaranKeAPI(formData);
-    });
+// Edit Sesi (PUT)
+const modalEdit = document.querySelector('#modal-edit-sesi');
+const formEdit = document.querySelector('#form-edit-sesi');
+const btnCancel = document.querySelector('#btn-cancel-edit');
+
+window.bukaModalEdit = function(id, nama, kode, kat, berlaku) {
+  document.querySelector('#edit-id').value = id;
+  document.querySelector('#edit-nama_sesi').value = nama;
+  document.querySelector('#edit-kode_qr').value = kode;
+  document.querySelector('#edit-kategori').value = kat;
+  document.querySelector('#edit-berlaku_sampai').value = berlaku.replace(' ', 'T');
+  if (modalEdit) modalEdit.showModal();
+};
+
+if (btnCancel && modalEdit) {
+  btnCancel.addEventListener('click', () => modalEdit.close());
+}
+
+if (formEdit) {
+  formEdit.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.querySelector('#edit-id').value;
+    const payload = {
+      nama_sesi: document.querySelector('#edit-nama_sesi').value.trim(),
+      kode_qr: document.querySelector('#edit-kode_qr').value.trim(),
+      kategori: document.querySelector('#edit-kategori').value,
+      berlaku_sampai: document.querySelector('#edit-berlaku_sampai').value
+    };
+
+    try {
+      const res = await fetch(`${API_SESI_URL}?id=${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        alert('Sesi mata kuliah berhasil diperbarui!');
+        modalEdit.close();
+        muatDaftarSesi();
+      } else {
+        alert(`Gagal Edit: ${data.message}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
+}
+
+// Hapus Sesi (DELETE)
+window.hapusSesi = async function(id) {
+  if (!confirm('Apakah Anda yakin ingin menghapus sesi ini?')) return;
+
+  try {
+    const res = await fetch(`${API_SESI_URL}?id=${id}`, { method: 'DELETE' });
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      alert('Sesi berhasil dihapus!');
+      muatDaftarSesi();
+    } else {
+      alert(`Gagal Hapus: ${data.message}`);
+    }
+  } catch (err) {
+    console.error(err);
   }
+};
+
+// Logout
+const btnLogout = document.querySelector('#btn-logout');
+if (btnLogout) {
+  btnLogout.addEventListener('click', (e) => {
+    e.preventDefault();
+    localStorage.removeItem(ROLE_KEY);
+    localStorage.removeItem(USER_KEY);
+    window.location.href = 'login.html';
+  });
+}
+
+// Inisialisasi Otomatis
+document.addEventListener('DOMContentLoaded', () => {
+  muatDaftarSesi();
 });

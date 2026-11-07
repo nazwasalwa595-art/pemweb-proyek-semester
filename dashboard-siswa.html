@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard Siswa & Mahasiswa - AbsensiQR</title>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body>
+
+  <!-- Header Panel Siswa -->
+  <header>
+    <a href="#main" class="skip-link">Lewati ke konten utama</a>
+    <img src="logo_absensiqr.png" alt="Logo AbsensiQR" width="100">
+    <h1>Absensi<span>QR</span> <small>(Panel Siswa/Mahasiswa)</small></h1>
+
+    <nav aria-label="Navigasi Siswa">
+      <a href="dashboard-siswa.html" class="nav-btn-login">Dashboard</a>
+      <a href="#scan-qr">Scan QR</a>
+      <a href="#riwayat">Riwayat Kehadiran</a>
+      <a href="index.html" id="btn-logout" style="color: #dc2626;">Keluar</a>
+      <button id="theme-toggle" type="button" aria-label="Ganti Tema">🌙</button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Section Info Profil Siswa -->
+    <section id="profil-siswa">
+      <article class="card">
+        <h2>Selamat Datang, Siswa/Mahasiswa</h2>
+        <p><strong>NIM/NIS:</strong> 2440304021 | <strong>Status Presensi Hari Ini:</strong> 1 Sesi Hadir</p>
+      </article>
+    </section>
+
+    <!-- Section 1: Pemindai QR Code / Input Kode Sesi -->
+    <section id="scan-qr">
+      <h2>Presensi Kehadiran QR Code</h2>
+      <article class="saran-info">
+        <h3>Arahkan Kamera ke QR Code Guru/Dosen</h3>
+        <figure>
+          <img src="gambar_ilustrasi_scanqr2.png" alt="Ilustrasi Scan QR Code" width="220">
+        </figure>
+      </article>
+
+      <article class="saran-form-box">
+        <form id="form-scan-absensi" action="#" method="POST">
+          <p>
+            <label for="kode_qr">Atau Masukkan Kode Sesi QR Manual *</label>
+            <input type="text" id="kode_qr" name="kode_qr" placeholder="Contoh: QR-PESISIR-01" required>
+          </p>
+
+          <p>
+            <label for="status_hadir">Keterangan Kehadiran *</label>
+            <select id="status_hadir" name="status" required>
+              <option value="Hadir">Hadir</option>
+              <option value="Izin">Izin</option>
+              <option value="Sakit">Sakit</option>
+            </select>
+          </p>
+
+          <button type="submit" class="btn-primary">Kirim Presensi Sekarang</button>
+        </form>
+      </article>
+    </section>
+
+    <!-- Section 2: Riwayat Presensi Saya -->
+    <section id="riwayat">
+      <h2>Riwayat Presensi Kehadiran Saya</h2>
+      <article class="card">
+        <p><strong>Mata Pelajaran:</strong> Pemrograman Web (Materi Modul 11)</p>
+        <p><strong>Waktu Presensi:</strong> 2026-11-07 08:30 | <strong>Status:</strong> <span style="color:#166534; font-weight:bold;">Hadir</span></p>
+      </article>
+    </section>
+
+  </main>
+
+  <footer>
+    <section>
+      <h2>Absensi<span>QR</span></h2>
+      <p>&copy; 2026 AbsensiQR. Dashboard Siswa/Mahasiswa.</p>
+    </section>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

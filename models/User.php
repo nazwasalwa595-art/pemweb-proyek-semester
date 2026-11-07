@@ -3,30 +3,21 @@
 require_once __DIR__ . '/../config/database.php';
 
 class User {
-    /**
-     * @var PDO
-     */
     private PDO $db;
 
     public function __construct() {
-        $this->db = Database::getInstance();
+        $this->db = db();
     }
 
     /**
-     * Registrasi Pengguna Baru (Prepared Statement)
+     * Registrasi Akun Baru ke Database MySQL
      */
-    public function register(
-        string $username, 
-        string $nama, 
-        string $email, 
-        string $password, 
-        string $peran
-    ): bool {
-        $sql = "INSERT INTO users (username, nama, email, password, peran) 
-                VALUES (:username, :nama, :email, :password, :peran)";
-        $stmt = $this->db->prepare($sql);
-        
+    public function register(string $username, string $nama, string $email, string $password, string $peran): bool {
+        // Enkripsi / Hash Password secara aman
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "INSERT INTO users (username, nama, email, password, peran) VALUES (:username, :nama, :email, :password, :peran)";
+        $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
             ':username' => $username,
@@ -38,7 +29,7 @@ class User {
     }
 
     /**
-     * Cari User Berdasarkan Username / NIM / NIP (Prepared Statement)
+     * Cari User dari Database berdasarkan Username (NIP/NIM)
      */
     public function findByUsername(string $username): array|false {
         $sql = "SELECT * FROM users WHERE username = :username LIMIT 1";

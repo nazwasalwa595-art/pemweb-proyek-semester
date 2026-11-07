@@ -1,42 +1,27 @@
 <?php
 // config/database.php
-require_once __DIR__ . '/../vendor/autoload.php';
 
-use Dotenv\Dotenv;
+function db(): PDO {
+    static $pdo = null;
 
-// Load variabel lingkungan dari .env
-$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->safeLoad();
-
-class Database {
-    private static $instance = null;
-    private $pdo;
-
-    private function __construct() {
-        $host = $_ENV['DB_HOST'] ?? '127.0.0.1';
-        $db   = $_ENV['DB_NAME'] ?? 'absensiqr_db';
-        $user = $_ENV['DB_USER'] ?? 'root';
-        $pass = $_ENV['DB_PASS'] ?? '';
-        $port = $_ENV['DB_PORT'] ?? '3306';
-
-        $dsn = "mysql:host=$host;dbname=$db;port=$port;charset=utf8mb4";
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
+    if ($pdo === null) {
+        $host = '127.0.0.1';
+        $dbname = 'absensiqr_db';
+        $username = 'root';
+        $password = '';
 
         try {
-            $this->pdo = new PDO($dsn, $user, $pass, $options);
+            $pdo = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8mb4", $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false
+            ]);
         } catch (PDOException $e) {
-            die(json_encode(["error" => "Koneksi database gagal: " . $e->getMessage()]));
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Koneksi Database Gagal: ' . $e->getMessage()]);
+            exit;
         }
     }
 
-    public static function getInstance() {
-        if (self::$instance === null) {
-            self::$instance = new Database();
-        }
-        return self::$instance->pdo;
-    }
+    return $pdo;
 }

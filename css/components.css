@@ -233,3 +233,76 @@ footer h2 span {
   margin-bottom: 1rem;
   display: none;
 }
+
+/* ==========================================================================
+   GAYA MODAL DIALOG & BADGE STATUS CRUD
+   ========================================================================== */
+
+/* Layout Grid Kartu Sesi / Rekap */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.card-sesi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-sesi h3 {
+  color: var(--text-dark);
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.btn-edit, .btn-delete {
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-edit {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-delete {
+  background-color: #dc2626;
+  color: white;
+}
+
+/* Modal Dialog Styling */
+dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 480px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  color: var(--text-dark);
+}
+
+dialog::backdrop {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+}
