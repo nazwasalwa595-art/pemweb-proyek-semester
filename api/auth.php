@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/config/database.php';
 require_once dirname(__DIR__) . '/models/User.php';
+require_once dirname(__DIR__) . '/helpers/auth.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -19,7 +20,7 @@ try {
         $nama     = trim((string)($input['nama'] ?? ''));
         $email    = trim((string)($input['email'] ?? ''));
         $password = (string)($input['password'] ?? '');
-        $peran    = trim((string)($input['peran'] ?? 'Siswa/Mahasiswa'));
+        $rawPeran = trim((string)($input['peran'] ?? 'Siswa/Mahasiswa'));
 
         if ($username === '' || $nama === '' || $email === '' || $password === '') {
             http_response_code(422);
@@ -27,14 +28,15 @@ try {
             exit;
         }
 
-        // Cek duplikasi username
+        $roleLower = strtolower($rawPeran);
+        $peran = (str_contains($roleLower, 'guru') || str_contains($roleLower, 'dosen')) ? 'Guru/Dosen' : 'Siswa/Mahasiswa';
+
         if ($userModel->findByUsername($username)) {
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Username (NIP/NIM) sudah terdaftar!'], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
-        // Simpan ke MySQL via PDO Prepared Statement
         $userModel->register($username, $nama, $email, $password, $peran);
 
         http_response_code(201);
@@ -43,7 +45,7 @@ try {
     }
 
     // ==========================================
-    // ACTION 2: LOGIN VIA DATABASE
+    // ACTION 2: LOGIN VIA DATABASE + SECURE SESSION
     // ==========================================
     if ($action === 'login') {
         $username = trim((string)($input['username'] ?? ''));
@@ -55,37 +57,68 @@ try {
             exit;
         }
 
-        // Cari user di database
         $user = $userModel->findByUsername($username);
 
-        if (!$user) {
-            http_response_code(404);
-            echo json_encode(['success' => false, 'message' => 'Username (NIP/NIM) tidak ditemukan di database!'], JSON_UNESCAPED_UNICODE);
-            exit;
-        }
-
-        // Verifikasi Hashed Password
-        if (!password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password'])) {
             http_response_code(401);
-            echo json_encode(['success' => false, 'message' => 'Kata sandi salah!'], JSON_UNESCAPED_UNICODE);
+            echo json_encode(['success' => false, 'message' => 'Username atau kata sandi salah!'], JSON_UNESCAPED_UNICODE);
             exit;
         }
 
-        // Sukses Login: Tentukan Peran
         $roleStr = strtolower($user['peran']);
         $role = (str_contains($roleStr, 'guru') || str_contains($roleStr, 'dosen')) ? 'guru' : 'siswa';
+
+        // Bentuk Session Aman di Server
+        startSecureSession();
+        session_regenerate_id(true);
+        $_SESSION['user_id']  = (int)$user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role']     = $role;
 
         http_response_code(200);
         echo json_encode([
             'success' => true,
             'message' => 'Login berhasil',
             'data' => [
+                'id'       => $user['id'],
                 'username' => $user['username'],
                 'nama'     => $user['nama'],
                 'peran'    => $user['peran'],
                 'role'     => $role
             ]
         ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // ==========================================
+    // ACTION 3: LOGOUT VIA POST (HAPUS SESSION & COOKIE)
+    // ==========================================
+    if ($action === 'logout') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method logout harus POST'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        startSecureSession();
+        $_SESSION = [];
+
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', [
+                'expires'  => time() - 42000,
+                'path'     => $params['path'],
+                'domain'   => $params['domain'] ?? '',
+                'secure'   => $params['secure'],
+                'httponly' => $params['httponly'],
+                'samesite' => $params['samesite'] ?? 'Lax',
+            ]);
+        }
+
+        session_destroy();
+
+        http_response_code(200);
+        echo json_encode(['success' => true, 'message' => 'Logout berhasil'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 

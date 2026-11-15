@@ -1,4 +1,4 @@
-/* js/app.js - Integration Auth & CRUD Sesi Serta Search Real-Time */
+/* js/app.js - Integration Auth, Session Cookie, & CRUD Sesi Serta Search Real-Time */
 
 const API_AUTH_URL = 'http://localhost/pemweb-proyek-semester/api/auth.php';
 const API_SESI_URL = 'http://localhost/pemweb-proyek-semester/api/sesi.php';
@@ -26,6 +26,7 @@ if (formLogin) {
     try {
       const response = await fetch(`${API_AUTH_URL}?action=login`, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: usernameInput, password: passwordInput })
       });
@@ -62,9 +63,8 @@ async function muatDaftarSesi(query = '') {
   if (!container) return;
 
   try {
-    // Menghubungkan Query Parameter Search ke API
     const url = query ? `${API_SESI_URL}?q=${encodeURIComponent(query)}` : API_SESI_URL;
-    const response = await fetch(url);
+    const response = await fetch(url, { credentials: 'same-origin' });
     const result = await response.json();
 
     container.replaceChildren();
@@ -99,7 +99,7 @@ const inputSearch = document.querySelector('#input-search');
 if (inputSearch) {
   inputSearch.addEventListener('input', (e) => {
     const kataKunci = e.target.value.trim();
-    muatDaftarSesi(kataKunci); // Memanggil pembaruan data secara langsung saat diketik
+    muatDaftarSesi(kataKunci);
   });
 }
 
@@ -118,6 +118,7 @@ if (formCreate) {
     try {
       const res = await fetch(API_SESI_URL, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
@@ -168,6 +169,7 @@ if (formEdit) {
     try {
       const res = await fetch(`${API_SESI_URL}?id=${id}`, {
         method: 'PUT',
+        credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
@@ -191,7 +193,10 @@ window.hapusSesi = async function(id) {
   if (!confirm('Apakah Anda yakin ingin menghapus sesi ini?')) return;
 
   try {
-    const res = await fetch(`${API_SESI_URL}?id=${id}`, { method: 'DELETE' });
+    const res = await fetch(`${API_SESI_URL}?id=${id}`, {
+      method: 'DELETE',
+      credentials: 'same-origin'
+    });
     const data = await res.json();
 
     if (res.ok && data.success) {
@@ -205,11 +210,19 @@ window.hapusSesi = async function(id) {
   }
 };
 
-// Logout
+// Logout (POST ke API + Bersihkan LocalStorage)
 const btnLogout = document.querySelector('#btn-logout');
 if (btnLogout) {
-  btnLogout.addEventListener('click', (e) => {
+  btnLogout.addEventListener('click', async (e) => {
     e.preventDefault();
+    try {
+      await fetch(`${API_AUTH_URL}?action=logout`, {
+        method: 'POST',
+        credentials: 'same-origin'
+      });
+    } catch (err) {
+      console.error('Logout API Error:', err);
+    }
     localStorage.removeItem(ROLE_KEY);
     localStorage.removeItem(USER_KEY);
     window.location.href = 'login.html';

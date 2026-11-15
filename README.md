@@ -1,4 +1,4 @@
-# Tugas2
+# Tugas12
 Nama Mahasiswa: Nazwa Salwa Adellia
 NPM : 2440304021
 Lokal : A1
@@ -24,48 +24,25 @@ AbsensiQR adalah platform web sistem absensi modern yang aman, praktis, dan resp
 
 ---
 
-## 🗄️ Tugas 10 - Basis Data, ERD, dan Prepared Statement (Proyek AbsensiQR)
+## Tugas 12 - Authentication & Authorization (AbsensiQR)
 
-### 1. ERD (Entity Relationship Diagram) Ringkas
-Struktur basis data `absensiqr_db` terdiri dari 3 tabel relasional utama:
+### 1. Desain Level Akses & Role Matrix
+Aplikasi **AbsensiQR** membagi hak akses menjadi dua level peran terautentikasi (**Siswa/Mahasiswa** dan **Guru/Dosen**) serta pengguna publik (**Anonymous**):
 
-```mermaid
-erDiagram
-    USERS ||--o{ KELAS : mengajar
-    USERS ||--o{ PRESENSI : melakukan
-    KELAS ||--o{ PRESENSI : memiliki
+| Endpoint / Fitur | Method | Anonymous (Belum Login) | Siswa/Mahasiswa (`role: siswa`) | Guru/Dosen (`role: guru`) |
+| :--- | :---: | :---: | :---: | :---: |
+| `/api/auth.php?action=register` | `POST` | ✅ `201 Created` | ✅ `201 Created` | ✅ `201 Created` |
+| `/api/auth.php?action=login` | `POST` | ✅ `200 OK` | ✅ `200 OK` | ✅ `200 OK` |
+| `/api/auth.php?action=logout` | `POST` | ✅ `200 OK` | ✅ `200 OK` | ✅ `200 OK` |
+| `/api/sesi.php` (Lihat & Cari Sesi) | `GET` | ✅ `200 OK` | ✅ `200 OK` | ✅ `200 OK` |
+| `/api/sesi.php` (Tambah Sesi QR) | `POST` | ❌ `401 Unauthorized` | ❌ `403 Forbidden` | ✅ `201 Created` |
+| `/api/sesi.php?id=...` (Edit Sesi QR) | `PUT` | ❌ `401 Unauthorized` | ❌ `403 Forbidden` | ✅ `200 OK` |
+| `/api/sesi.php?id=...` (Hapus Sesi QR) | `DELETE` | ❌ `401 Unauthorized` | ❌ `403 Forbidden` | ✅ `200 OK` |
 
-    USERS {
-        int id PK
-        string username UK "NIM / NIP (Numeric Only)"
-        string nama
-        string email
-        string password
-        enum peran "Siswa/Mahasiswa, Guru/Dosen"
-        timestamp created_at
-    }
-    KELAS {
-        int id PK
-        string kode_kelas UK
-        string nama_kelas
-        int dosen_id FK
-    }
-    PRESENSI {
-        int id PK
-        int user_id FK
-        int kelas_id FK
-        timestamp waktu_absen
-        enum status "Hadir, Izin, Alpa"
-    }
-  ```
-
-  ### 🔒 Koneksi PDO & Prepared Statement
-
-- **Koneksi PDO Singleton (`config/database.php`):**
-  Menggunakan driver `PDO` MySQL dengan opsi `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION` dan `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC` untuk memastikan setiap kegagalan query melempar *exception* yang terstruktur.
-
-- **Query Aman (*Parameterized Query* di `models/User.php`):**
-  Seluruh operasi manipulasi data (seperti `register` dan `findByUsername`) menggunakan metode `$pdo->prepare()` dan `$stmt->execute()` dengan parameter binding (misalnya `:username`). Hal ini menjamin bahwa input pengguna diperlakukan murni sebagai data, bukan sebagai sintaksis kode SQL, sehingga kebal dari serangan *SQL Injection*[
+### 2. Keamanan Sesi & Password
+- **Password Hashing:** Menggunakan `password_hash(..., PASSWORD_BCRYPT)` saat registrasi dan `password_verify()` saat login.
+- **Session Security:** Menggunakan PHP Session dengan cookie `HttpOnly`, `SameSite=Lax`, serta `session_regenerate_id(true)` saat login untuk mencegah *Session Fixation*.
+- **Server-Side Authorization:** Validasi peran ditegakkan melalui helper `requireRole(['guru'])` di backend sebelum operasi penulisan database dieksekusi.
 
 ## 💻 Cara Menjalankan Proyek di Server Lokal (Laragon)
 

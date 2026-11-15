@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/helpers/auth.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -10,12 +11,19 @@ try {
     $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : null;
 
     // ==========================================
+    // PROTEKSI SERVER-SIDE (TUGAS 12 - AUTHZ)
+    // Hanya Guru/Dosen yang boleh Create/Update/Delete Sesi
+    // ==========================================
+    if (in_array($method, ['POST', 'PUT', 'DELETE'], true)) {
+        requireRole(['guru']);
+    }
+
+    // ==========================================
     // 1. READ (GET ALL / SEARCH FITUR)
     // ==========================================
     if ($method === 'GET') {
         $search = isset($_GET['q']) ? trim((string)$_GET['q']) : '';
 
-        // Jika ada pencarian, gunakan klausa WHERE LIKE yang aman
         if ($search !== '') {
             $sql = 'SELECT * FROM sesi_qr WHERE nama_sesi LIKE :s1 OR kode_qr LIKE :s2 OR kategori LIKE :s3 ORDER BY id DESC';
             $stmt = db()->prepare($sql);
@@ -43,7 +51,7 @@ try {
     }
 
     // ==========================================
-    // 2. CREATE (POST)
+    // 2. CREATE (POST - KHUSUS GURU)
     // ==========================================
     if ($method === 'POST') {
         $input = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -72,7 +80,7 @@ try {
     }
 
     // ==========================================
-    // 3. UPDATE (PUT)
+    // 3. UPDATE (PUT - KHUSUS GURU)
     // ==========================================
     if ($method === 'PUT') {
         if ($id === null || $id === false) {
@@ -102,7 +110,7 @@ try {
     }
 
     // ==========================================
-    // 4. DELETE (DELETE)
+    // 4. DELETE (DELETE - KHUSUS GURU)
     // ==========================================
     if ($method === 'DELETE') {
         if ($id === null || $id === false) {
@@ -119,7 +127,10 @@ try {
         exit;
     }
 
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Method tidak diizinkan'], JSON_UNESCAPED_UNICODE);
+
 } catch (Throwable $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error Server DB: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan internal pada server'], JSON_UNESCAPED_UNICODE);
 }
